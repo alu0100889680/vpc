@@ -23,7 +23,8 @@ public:
 
 private slots:
 
-    void on_actionAbrir_triggered();
+    QImage on_actionAbrir_triggered();
+    void on_actionDuplicar_triggered(QImage);
 
 private:
     Ui::MainWindow *ui;

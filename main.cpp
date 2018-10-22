@@ -7,8 +7,8 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 
-//    cout << "hola"  << endl;
-//    qDebug() << "Hello World";
+   cout << "hola"  << endl;
+   qDebug() << "Hello World";
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
