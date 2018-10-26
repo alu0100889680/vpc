@@ -1,7 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ui_graphic.h"
 #include <QtCore/QCoreApplication>
 #include <iostream>
+#include "graphic.h"
+
 
 using namespace std;
 
@@ -10,55 +13,55 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow){
         ui->setupUi(this);
         this->setWindowTitle("Programa VPC");
+        cout <<" hola estas en el constroctor" <<endl;
     }
+
+MainWindow::MainWindow(QImage img, QString title):
+    image_(img),
+    name_(title),
+    ui(new Ui::MainWindow){
+        ui->setupUi(this);
+        this->setWindowTitle(name_);
+        this->ui->cuadroImg->setScaledContents(true);
+        this->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
+        this->setWindowTitle(title);
+    };
+//    uo(new Ui::QCustomPlot){
+//        ui->setupUi(this);
+//        this->setWindowTitle(name_);
+//        this->ui->cuadroImg->setScaledContents(true);
+//        this->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
+//        this->setWindowTitle(title);
+//    };
+
 
 MainWindow::~MainWindow(){
     delete ui;
 }
 
-QImage MainWindow::on_actionAbrir_triggered(){
+void MainWindow::on_actionAbrir_triggered(){
+
 
     QString filename = QFileDialog::getOpenFileName(this, tr("Selecciona una imagen"), "", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
-    QFileInfo file("/tmp/archive.tar.gz");
-    QString name = file.fileName();
+    QFileInfo file = filename;
+    name_ = file.fileName();
 
-     QImage image;
 
     if(QString::compare(filename, QString()) != 0){
 
-
         QVector<QRgb> vector;
-        bool valid = image.load(filename);
+        bool valid = image_.load(filename);
 
         if(valid) {
             ui->cuadroImg->setScaledContents(true);
-            ui->cuadroImg->setPixmap(QPixmap::fromImage(image));
-            this->setWindowTitle(name);
+            ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
+            this->setWindowTitle(name_);
 
+//            for(int i=0; i< this->height(); i++){
+//                for(int j=0; j < this->g)
+//            }
 
-
-            //HISTOGRAMA//
-
-            cout<<"HISTOGRAMA"<<endl;
-            uchar *bits = image.bits();
-
-            long int histograma[256];
-            for (int i=0;i<256;i++){
-                histograma[i]=0;
-            }
-            for (int i = 0; i < (image.width() * image.height()); i++)
-            {
-                histograma[bits[i]]++;
-            }
-            for (int i=0; i<256; i++){
-                cout<<i<<"\t="<<histograma[i]<<endl;
-            }
-
-            long int total=0;
-            for (int i=0;i<256;i++){
-                total+=histograma[i];
-            }
-            cout<<"total= "<<total;
+            //cout<<"total= "<<total;
 
 
            // image = image.convertToFormat(QImage::Format_RGB888);
@@ -89,20 +92,74 @@ QImage MainWindow::on_actionAbrir_triggered(){
             cout << "errorrrrrr"  << endl;
         }
     }
-    int a;
-    cin>>a;
-    on_actionDuplicar_triggered(image);
-    return image;
 }
 
 
 
-void MainWindow::on_actionDuplicar_triggered(QImage image){
+void MainWindow::on_actionDuplicar_triggered(){
 
-    cout<<"dupli";
+    //QWidget* W = new QWidget();
+    MainWindow* W = new MainWindow(image_,name_);
+    W->show();
+//    W->ui->cuadroImg->setScaledContents(true);
+//    W->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
+//    W->setWindowTitle(name_);
+}
 
-    ui->cuadroImg->setScaledContents(true);
-    ui->cuadroImg->setPixmap(QPixmap::fromImage(image));
-    this->setWindowTitle("dupli");
+void MainWindow::on_actionHistograma_triggered()
+{
 
+    // Esto funciona (3)
+//    Graphic grafico;
+//    grafico.setModal(true);
+//    grafico.exec();
+
+   grafico = new Graphic(image_);
+   grafico->show();
+
+    //    //HISTOGRAMA//
+
+    // generate some data:
+//    QVector<double> x(101), y(101); // initialize with entries 0..100
+//    for (int i=0; i<101; ++i)
+//    {
+//      x[i] = i/50.0 - 1; // x goes from -1 to 1
+//      y[i] = x[i]*x[i]; // let's plot a quadratic function
+//    }
+    // create graph and assign data to it:
+//    grafico->addGraph();
+//    grafico->graph(0)->setData(x, y);
+//    // give the axes some labels:
+//    grafico->xAxis->setLabel("x");
+//    grafico->yAxis->setLabel("y");
+//    // set axes ranges, so we see all data:
+//    grafico->xAxis->setRange(-1, 1);
+//    grafico->yAxis->setRange(0, 1);
+//    grafico->replot();
+
+//    cout<<"HISTOGRAMA"<<endl;
+//    uchar *bits = image_.bits();
+
+//    long int histograma[256];
+//    for (int i=0;i<256;i++){
+//        histograma[i]=0;
+//    }
+//    for (int i = 0; i < (image_.width() * image_.height()); i++)
+//    {
+//        histograma[bits[i]]++;
+//    }
+//    for (int i=0; i<256; i++){
+//        cout<<i<<"\t="<<histograma[i]<<endl;
+//    }
+
+//    long int total=0;
+//    for (int i=0;i<256;i++){
+//        total+=histograma[i];
+//    }
+
+
+//    qsizetype a = image_.sizeInBytes();
+
+//    cout << image_.height() * image_.width() << endl;
+//    cout << a << endl;
 }

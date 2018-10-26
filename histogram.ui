@@ -6,25 +6,22 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>632</width>
-    <height>505</height>
+    <width>608</width>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="cuadroImg">
+   <widget class="QWidget" name="customPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>0</y>
-      <width>581</width>
-      <height>421</height>
+      <x>80</x>
+      <y>50</y>
+      <width>391</width>
+      <height>271</height>
      </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
   </widget>
@@ -33,26 +30,10 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>632</width>
+     <width>608</width>
      <height>26</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuArchivo">
-    <property name="title">
-     <string>Archivo</string>
-    </property>
-    <addaction name="actionAbrir"/>
-    <addaction name="actionGuardar"/>
-    <addaction name="actionDuplicar"/>
-   </widget>
-   <widget class="QMenu" name="menuAnalizar">
-    <property name="title">
-     <string>Analizar</string>
-    </property>
-    <addaction name="actionHistograma"/>
-   </widget>
-   <addaction name="menuArchivo"/>
-   <addaction name="menuAnalizar"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
