@@ -4,6 +4,14 @@
 #include <QDialog>
 #include <QImage>
 #include <iostream>
+#include <QString>
+#include <QFileInfo>
+#include <math.h>
+#include <QMouseEvent>
+#include <QEvent>
+#include <QDebug>
+#include <QLabel>
+
 
 using namespace std;
 
@@ -17,11 +25,18 @@ class Graphic : public QDialog
 
 public:
     explicit Graphic(QWidget *parent = nullptr);
-    Graphic(QImage img);
+    Graphic(QImage img, QFileInfo name);
     ~Graphic();
+
+private slots:
+
+    void on_acumulativo_clicked();
+    void on_histograma_clicked();
 
 private:
     Ui::Graphic *ui;
+    QVector<double> x_,lista_, color_table_, acumulativo_;
+    double contador_, max_;
 };
 
 #endif // GRAPHIC_H

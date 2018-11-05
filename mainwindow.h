@@ -37,16 +37,19 @@ private slots:
     void on_actionRango_de_valores_triggered();
     void on_actionTama_o_triggered();
 
+    void Mouse_current_pos();
+
 private:
 
     QImage image_;
-    QString name_;
+    QFileInfo name_;
     QVector<QVector<QColor> > vector_; //monocolor -> red = blue = green
     // Añadir atributo bool monocromo o no
     Ui::MainWindow *ui;
     Graphic *grafico;
     QVBoxLayout *mLayout;
     QCustomPlot *mPlot;
+
 };
 
 #endif // MAINWINDOW_H
