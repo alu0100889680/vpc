@@ -162,10 +162,18 @@ void MainWindow::on_actionHistograma_triggered()
         total+=histograma[i];
     }
 
+    long int brillo=0;
+    for (int i=0;i<256;i++){
+        brillo+=histograma[i]*i;
+    }
+    brillo = brillo /(image_.height() * image_.width());
 
     //qsizetype a = image_.sizeInBytes();
 
     cout << image_.height() * image_.width() << endl;
+    cout << "Brillo = "<<brillo<<endl;
+
+
     //cout << a << endl;
 
 //    QCPBars *myBars = new QCPBars(mPlot->xAxis, mPlot->yAxis);
