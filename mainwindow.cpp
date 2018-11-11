@@ -5,8 +5,10 @@
 #include <iostream>
 #include "graphic.h"
 #include <QString>
-
-
+#include "my_qlabel.h"
+#include <QMainWindow>
+#include <pthread.h>
+#include <thread>
 
 using namespace std;
 
@@ -17,8 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
         this->setWindowTitle("Programa VPC");
         cout <<" hola estas en el constroctor" <<endl;
 
-       // mLayout = new QVBoxLayout;
-       // mPlot = new QCustomPlot(this);
+       connect(ui->cuadroImg, SIGNAL(sendMousePosition(QPoint&)), this, SLOT(showMousePosition(Qpoint&)));
     }
 
 MainWindow::MainWindow(QImage img, QString title):
@@ -26,18 +27,11 @@ MainWindow::MainWindow(QImage img, QString title):
     name_(title),
     ui(new Ui::MainWindow){
         ui->setupUi(this);
-        this->setWindowTitle(name_);
+        this->setWindowTitle(name_.fileName());
         this->ui->cuadroImg->setScaledContents(true);
         this->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
         this->setWindowTitle(title);
     };
-//    uo(new Ui::QCustomPlot){
-//        ui->setupUi(this);
-//        this->setWindowTitle(name_);
-//        this->ui->cuadroImg->setScaledContents(true);
-//        this->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
-//        this->setWindowTitle(title);
-//    };
 
 
 MainWindow::~MainWindow(){
@@ -46,73 +40,46 @@ MainWindow::~MainWindow(){
 
 void MainWindow::on_actionAbrir_triggered(){
 
-
     QString filename = QFileDialog::getOpenFileName(this, tr("Selecciona una imagen"), "", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
     QFileInfo file = filename;
-    name_ = file.fileName();
-
+    name_ = filename;
 
     if(QString::compare(filename, QString()) != 0){
 
         QVector<QRgb> vector;
         bool valid = image_.load(filename);
+//        bool valid = image_.load(name_.fileName());
 
         if(valid) {
-            ui->cuadroImg->setScaledContents(true);
+//            ui->cuadroImg->setScaledContents(true);       // Con esta se ajusta la imagen al tamaño del widget
+            if((image_.width() > 2560)||(image_.height() > 1800))
+                    image_ = image_.scaled(image_.width()/2,image_.height()/2);
+            else
+                ui->cuadroImg->setGeometry(50,50,image_.width(),image_.height());
+
             ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
-            this->setWindowTitle(name_);
-
-//            for(int i=0; i< this->height(); i++){
-//                for(int j=0; j < this->g)
-//            }
-
-            //cout<<"total= "<<total;
-
-
-           // image = image.convertToFormat(QImage::Format_RGB888);
-
-           /* uchar *bits = image.bits();
-
-            for (int i = 0; i < (image.width() * image.height() * 3); i++)
-            {
-                vector.push_back(bits[i]);
-            }
-            cout << endl;
-
-//            vector = image.colorTable();
-            cout << vector.size() << endl;
-            for (int i = 0; i < vector.size(); i++){
-                cout << vector.at(i) << " ";
-            }
-            cout << endl;*/
-            // Cuando carga la imagen, crear el objeto (deberia ser global o sea que declarar en el .h), en la etiqueta de abajo de la ventana
-            // "imprimir" la extension de la imagen o el tamaño
-
-
-            // Nota: para coger la extensión de la foto usar QString QFileInfo::completeSuffix() const
-            // En QImage hay un metodo booleano que detecta una imagen monocromo o rgb (bool QImage::allGray() const)
+            this->setWindowTitle(name_.fileName());
+            cout << "Hola:  " << image_.depth() << endl;
         }
         else{
-            // Error
-            cout << "errorrrrrr"  << endl;
+            cout << "Error cargando la imagen"  << endl;
         }
     }
-}
 
+    connect(ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
+}
 
 
 void MainWindow::on_actionDuplicar_triggered(){
 
     //QWidget* W = new QWidget();
-    MainWindow* W = new MainWindow(image_,name_);
+    MainWindow* W = new MainWindow(image_,name_.fileName());
     W->show();
-//    W->ui->cuadroImg->setScaledContents(true);
-//    W->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
-//    W->setWindowTitle(name_);
 }
 
 void MainWindow::on_actionHistograma_triggered()
 {
+//<<<<<<< HEAD
 
     // Esto funciona (3)
 //    Graphic grafico;
@@ -142,7 +109,7 @@ void MainWindow::on_actionHistograma_triggered()
 //    grafico->yAxis->setRange(0, 1);
 //    grafico->replot();
 
-    cout<<"HISTOGRAMA"<<endl;
+ /*   cout<<"HISTOGRAMA"<<endl;
     uchar *bits = image_.bits();
 
     long int histograma[256];
@@ -186,11 +153,42 @@ void MainWindow::on_actionHistograma_triggered()
 //    myBars->setData(keyData, valueData);
 //    mPlot->rescaleAxes();
 //    mPlot->replot();
+//=======
+    */
+    Graphic grafico(image_, name_.fileName(), 0);
+    grafico.setModal(true);
+    grafico.exec();
+
+
+
+//>>>>>>> 72e6f673c7bccc85f843a9815c7b415ef6a1c36a
+}
+void MainWindow::uno(){
+
+    Graphic grafico(image_, name_.fileName(), 0);
+    grafico.setModal(true);
+    grafico.exec();
+
+}
+
+void MainWindow::dos(){
+
+    Graphic grafico(image_, name_.fileName(), 1);
+    grafico.setModal(true);
+    grafico.exec();
+
+}
+void MainWindow::on_actionHistograma_Acumulado_triggered()
+{
+
+    Graphic grafico(image_, name_.fileName(), 1);
+    grafico.setModal(true);
+    grafico.exec();
 }
 
 void MainWindow::on_actionRango_de_valores_triggered()
 {
-cout<<"rango de valores"<<endl;
+    cout<<"rango de valores"<<endl;
 
      uchar *bits = image_.bits();
     long int histograma[256];
@@ -220,28 +218,20 @@ cout<<"rango de valores"<<endl;
     rango.append("\nmax= ");
     rango.append(QString::number(max));
 
-//    QMessageBox msgBox;
-//     msgBox.setText(rango);
-//     msgBox.exec();
-
-     QMessageBox::information(this,"Rango de Valores",rango);
-
-
+    QMessageBox::information(this,"Rango de Valores",rango);
 }
 
 void MainWindow::on_actionTama_o_triggered()
 {
-cout<<"tamaño"<<endl;
-
-
-
-    //image_.width() * image_.height()
-
     QString rango(QString::number(image_.width()));
-     rango.append(" x ");
+    rango.append(" x ");
     rango.append(QString::number(image_.height()));
 
     QMessageBox::information(this,"Tamaño de la imagen",rango);
-
-
 }
+
+void MainWindow::Mouse_current_pos()
+{
+    ui->etiqueta_coordenadas->setText(QString("X = %1, Y = %2").arg(ui->cuadroImg->x).arg(ui->cuadroImg->y));
+}
+

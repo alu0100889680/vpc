@@ -1,0 +1,88 @@
+            QVector<int> lista;
+            image_ = image_.convertToFormat(QImage::Format_RGB888);
+
+            uchar *bits = image_.bits();
+
+            for (int i = 0; i < (image_.width() * image_.height() * 3); i++)
+            {
+                //std::cout << 0 << "  " << (int) bits[0] << std::endl;
+                lista.push_back(bits[i]);
+            }
+            cout << "tamaño de la lista: "<< lista.size() <<endl;
+
+            QVector<int> color_table;
+            for (int i = 0; i < 256; i++){
+                color_table.push_back(lista.count(i));
+            }
+            cout << "tamaño de la lista de contar: "<< color_table.size() <<endl;
+            for (int i = 0; i < 256; i++){
+                cout << i << " " <<color_table[i] <<endl;
+            }
+
+            for (int i = 0; i < (image_.width() * image_.height() * 3); i++)
+            {
+                vector.push_back(bits[i]);
+            }
+            cout << endl;
+
+          vector = image_.colorTable();
+            cout << vector.size() << endl;
+            for (int i = 0; i < vector.size(); i++){
+                cout << vector.at(i) << " ";
+            }
+
+  cout << endl;
+            // Cuando carga la imagen, crear el objeto (deberia ser global o sea que declarar en el .h), en la etiqueta de abajo de la ventana
+            // "imprimir" la extension de la imagen o el tamaño
+
+
+            // Nota: para coger la extensión de la foto usar QString QFileInfo::completeSuffix() const
+            // En QImage hay un metodo bool que detecta una imagen monocromo o rgb (bool QImage::allGray() const)
+
+
+
+
+
+
+// EN on_actionHistograma_triggered///
+///////////////////////////////////////
+
+
+//    cout<<"HISTOGRAMA"<<endl;
+    uchar *bits = image_.bits();
+
+    long int histograma[256];
+    for (int i=0;i<256;i++){
+        histograma[i]=0;
+    }
+    for (int i = 0; i < (image_.width() * image_.height()); i++)
+    {
+        histograma[bits[i]]++;
+    }
+    for (int i=0; i<256; i++){
+        cout<<i<<"\t="<<histograma[i]<<endl;
+    }
+
+    // Para el acumulativo??
+    long int total=0;
+    for (int i=0;i<256;i++){
+        total+=histograma[i];
+    }
+
+
+    //qsizetype a = image_.sizeInBytes();
+
+//    cout << image_.height() * image_.width() << endl;
+    //cout << a << endl;
+
+//    QCPBars *myBars = new QCPBars(mPlot->xAxis, mPlot->yAxis);
+//    // now we can modify properties of myBars:
+//    myBars->setName("Bars Series 1");
+//    QVector<double> keyData;
+//    QVector<double> valueData;
+//    keyData << 1 << 2 << 3;
+//    valueData << 1 << 2 << 3;
+//    myBars->setData(keyData, valueData);
+//    mPlot->rescaleAxes();
+//    mPlot->replot();
+}

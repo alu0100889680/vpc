@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     qcustomplot.cpp \
-    graphic.cpp
+    graphic.cpp \
+    my_qlabel.cpp
 
 HEADERS += \
         mainwindow.h \
     qcustomplot.h \
-    graphic.h
+    graphic.h \
+    my_qlabel.h
 
 FORMS += \
         mainwindow.ui \
