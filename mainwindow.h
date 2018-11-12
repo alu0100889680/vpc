@@ -37,6 +37,8 @@ private slots:
     void on_actionHistograma_Acumulado_triggered();
     void on_actionRango_de_valores_triggered();
     void on_actionTama_o_triggered();
+    void on_actionCambiar_Brillo_triggered();
+
 
     void Mouse_current_pos();
 

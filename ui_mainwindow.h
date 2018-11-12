@@ -33,12 +33,14 @@ public:
     QAction *actionDuplicar;
     QAction *actionRango_de_valores;
     QAction *actionTama_o;
+    QAction *actionCambiar_Brillo;
     QWidget *centralWidget;
     my_qlabel *cuadroImg;
     QLabel *etiqueta_coordenadas;
     QMenuBar *menuBar;
     QMenu *menuArchivo;
     QMenu *menuAnalizar;
+    QMenu *menuEditar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -61,6 +63,8 @@ public:
         actionRango_de_valores->setObjectName(QStringLiteral("actionRango_de_valores"));
         actionTama_o = new QAction(MainWindow);
         actionTama_o->setObjectName(QStringLiteral("actionTama_o"));
+        actionCambiar_Brillo = new QAction(MainWindow);
+        actionTama_o->setObjectName(QStringLiteral("actionCambiar_Brillo"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         cuadroImg = new my_qlabel(centralWidget);
@@ -94,6 +98,9 @@ public:
         menuAnalizar = new QMenu(menuBar);
         menuAnalizar->setObjectName(QStringLiteral("menuAnalizar"));
         MainWindow->setMenuBar(menuBar);
+        menuEditar = new QMenu(menuBar);
+        menuEditar->setObjectName(QStringLiteral("menuEditar"));
+        MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
@@ -103,6 +110,7 @@ public:
 
         menuBar->addAction(menuArchivo->menuAction());
         menuBar->addAction(menuAnalizar->menuAction());
+        menuBar->addAction(menuEditar->menuAction());
         menuArchivo->addAction(actionAbrir);
         menuArchivo->addAction(actionGuardar);
         menuArchivo->addAction(actionDuplicar);
@@ -110,6 +118,7 @@ public:
         menuAnalizar->addAction(actionHistograma_Acumulado);
         menuAnalizar->addAction(actionRango_de_valores);
         menuAnalizar->addAction(actionTama_o);
+        menuEditar->addAction(actionCambiar_Brillo);
 
         retranslateUi(MainWindow);
 
@@ -126,10 +135,12 @@ public:
         actionDuplicar->setText(QApplication::translate("MainWindow", "Duplicar", nullptr));
         actionRango_de_valores->setText(QApplication::translate("MainWindow", "Rango de valores", nullptr));
         actionTama_o->setText(QApplication::translate("MainWindow", "Tama\303\261o", nullptr));
+        actionCambiar_Brillo->setText(QApplication::translate("MainWindow", "Cambiar Brillo", nullptr));
         cuadroImg->setText(QString());
         etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0", nullptr));
         menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", nullptr));
         menuAnalizar->setTitle(QApplication::translate("MainWindow", "Analizar", nullptr));
+        menuEditar->setTitle(QApplication::translate("MainWindow", "Editar", nullptr));
     } // retranslateUi
 
 };

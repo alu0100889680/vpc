@@ -230,6 +230,11 @@ void MainWindow::on_actionTama_o_triggered()
     QMessageBox::information(this,"Tamaño de la imagen",rango);
 }
 
+void MainWindow::on_actionCambiar_Brillo_triggered()
+{
+    cout<<"brillo"<<endl;
+}
+
 void MainWindow::Mouse_current_pos()
 {
     ui->etiqueta_coordenadas->setText(QString("X = %1, Y = %2").arg(ui->cuadroImg->x).arg(ui->cuadroImg->y));
