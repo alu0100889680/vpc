@@ -64,7 +64,7 @@ public:
         actionTama_o = new QAction(MainWindow);
         actionTama_o->setObjectName(QStringLiteral("actionTama_o"));
         actionCambiar_Brillo = new QAction(MainWindow);
-        actionTama_o->setObjectName(QStringLiteral("actionCambiar_Brillo"));
+        actionCambiar_Brillo->setObjectName(QStringLiteral("actionCambiar_Brillo"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         cuadroImg = new my_qlabel(centralWidget);

@@ -233,6 +233,21 @@ void MainWindow::on_actionTama_o_triggered()
 void MainWindow::on_actionCambiar_Brillo_triggered()
 {
     cout<<"brillo"<<endl;
+
+
+       cout<<image_.pixelColor(25,25).value();
+       image_.setPixel(25,25,qRgb(150,150,150));
+       for(int i =0;i<image_.width();i++)
+           for(int j=0; j<image_.height();j++){
+               int color= image_.pixelColor(i,j).value() + 10;
+               if (color>255) color = 255;
+               if (color<0) color = 0;
+                image_.setPixel(i,j,qRgb(color,color,color));
+           }
+
+    MainWindow* W = new MainWindow(image_,name_.fileName());
+     W->show();
+
 }
 
 void MainWindow::Mouse_current_pos()
