@@ -234,21 +234,59 @@ void MainWindow::on_actionCambiar_Brillo_triggered()
 {
     cout<<"brillo"<<endl;
 
+        QImage nueva;
+        nueva = image_;
 
-       cout<<image_.pixelColor(25,25).value();
-       image_.setPixel(25,25,qRgb(150,150,150));
-       for(int i =0;i<image_.width();i++)
-           for(int j=0; j<image_.height();j++){
-               int color= image_.pixelColor(i,j).value() + 10;
-               if (color>255) color = 255;
-               if (color<0) color = 0;
-                image_.setPixel(i,j,qRgb(color,color,color));
-           }
+//        cout<<nueva.pixelColor(25,25).value();
+//               nueva.setPixel(25,25,qRgb(150,150,150));
+               for(int i =0;i<nueva.width();i++)
+                   for(int j=0; j<nueva.height();j++){
+                       int color= nueva.pixelColor(i,j).value() + 10;
+                       if (color>255) color = 255;
+                       if (color<0) color = 0;
+                        nueva.setPixel(i,j,qRgb(color,color,color));
+                   }
 
-    MainWindow* W = new MainWindow(image_,name_.fileName());
-     W->show();
+            MainWindow* W = new MainWindow(nueva,name_.fileName());
+             W->show();
 
 }
+
+void MainWindow::on_actionTramos_triggered()
+{
+    cout<<"Numero de tramos: ";
+    int n;
+    cin>>n;
+    int tramo[n][2];
+    for (int i=0;i<n;i++){
+        cout<<endl<<i+1<<"º X: ";
+        cin>>tramo[i][0];
+        cout<<endl<<"Y: ";
+        cin>>tramo[i][1];
+    }
+    QImage nueva;
+    nueva = image_;
+
+
+    for(int i =0;i<nueva.width();i++){
+        for(int j=0; j<nueva.height();j++){
+            int color= nueva.pixelColor(i,j).value() + 10;
+            for(int k=0; k<n;k++){
+                if (color<tramo[k][0]){
+                    color = tramo[k][1];
+                    break;
+                }
+            }
+            nueva.setPixel(i,j,qRgb(color,color,color));
+        }
+    }
+
+ MainWindow* W = new MainWindow(nueva,name_.fileName());
+  W->show();
+
+
+}
+
 
 void MainWindow::Mouse_current_pos()
 {

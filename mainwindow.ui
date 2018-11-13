@@ -126,6 +126,7 @@
      <string>Editar</string>
     </property>
     <addaction name="actionCambiar_Brillo"/>
+    <addaction name="actionTransformaci_n_por_Tramos"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuAnalizar"/>
@@ -202,6 +203,11 @@
   <action name="actionCambiar_Brillo">
    <property name="text">
     <string>Cambiar Brillo</string>
+   </property>
+  </action>
+  <action name="actionTransformaci_n_por_Tramos">
+   <property name="text">
+    <string>Transformación por Tramos</string>
    </property>
   </action>
  </widget>

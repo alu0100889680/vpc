@@ -34,6 +34,7 @@ public:
     QAction *actionRango_de_valores;
     QAction *actionTama_o;
     QAction *actionCambiar_Brillo;
+    QAction *actionTramos;
     QWidget *centralWidget;
     my_qlabel *cuadroImg;
     QLabel *etiqueta_coordenadas;
@@ -65,6 +66,8 @@ public:
         actionTama_o->setObjectName(QStringLiteral("actionTama_o"));
         actionCambiar_Brillo = new QAction(MainWindow);
         actionCambiar_Brillo->setObjectName(QStringLiteral("actionCambiar_Brillo"));
+        actionTramos = new QAction(MainWindow);
+        actionTramos->setObjectName(QStringLiteral("actionTramos"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         cuadroImg = new my_qlabel(centralWidget);
@@ -119,6 +122,7 @@ public:
         menuAnalizar->addAction(actionRango_de_valores);
         menuAnalizar->addAction(actionTama_o);
         menuEditar->addAction(actionCambiar_Brillo);
+        menuEditar->addAction(actionTramos);
 
         retranslateUi(MainWindow);
 
@@ -136,6 +140,7 @@ public:
         actionRango_de_valores->setText(QApplication::translate("MainWindow", "Rango de valores", nullptr));
         actionTama_o->setText(QApplication::translate("MainWindow", "Tama\303\261o", nullptr));
         actionCambiar_Brillo->setText(QApplication::translate("MainWindow", "Cambiar Brillo", nullptr));
+        actionTramos->setText(QApplication::translate("MainWindow", "Transformación por Tramos", nullptr));
         cuadroImg->setText(QString());
         etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0", nullptr));
         menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", nullptr));
