@@ -101,7 +101,7 @@
      <x>0</x>
      <y>0</y>
      <width>407</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -120,6 +120,7 @@
     <addaction name="actionRango_de_valores"/>
     <addaction name="actionTama_o"/>
     <addaction name="actionHistograma_Acumulativo"/>
+    <addaction name="actionEcualizar_imagen"/>
    </widget>
    <widget class="QMenu" name="menuEditar">
     <property name="title">
@@ -127,6 +128,7 @@
     </property>
     <addaction name="actionCambiar_Brillo"/>
     <addaction name="actionTransformaci_n_por_Tramos"/>
+    <addaction name="actionEscala_de_grises"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuAnalizar"/>
@@ -208,6 +210,21 @@
   <action name="actionTransformaci_n_por_Tramos">
    <property name="text">
     <string>Transformación por Tramos</string>
+   </property>
+  </action>
+  <action name="actionEscala_de_grises">
+   <property name="text">
+    <string>Escala de grises</string>
+   </property>
+  </action>
+  <action name="actionE">
+   <property name="text">
+    <string>Ecualizar imagen</string>
+   </property>
+  </action>
+  <action name="actionEcualizar_imagen">
+   <property name="text">
+    <string>Ecualizar imagen</string>
    </property>
   </action>
  </widget>

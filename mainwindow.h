@@ -10,6 +10,7 @@
 #include "qcustomplot.h"
 #include <iostream>
 #include <QVBoxLayout>
+#include <math.h>
 
 
 
@@ -46,9 +47,14 @@ private slots:
     void uno();
     void dos();
 
+    void on_actionEscala_de_grises_triggered();
+
+
+    void on_actionEcualizar_imagen_triggered();
+
 private:
 
-    QImage image_;
+    QImage image_, grey_image_;
     QFileInfo name_;
     QVector<QVector<QColor> > vector_; //monocolor -> red = blue = green
     // Añadir atributo bool monocromo o no

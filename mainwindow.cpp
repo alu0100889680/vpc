@@ -31,6 +31,8 @@ MainWindow::MainWindow(QImage img, QString title):
         this->ui->cuadroImg->setScaledContents(true);
         this->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
         this->setWindowTitle(title);
+        connect(ui->cuadroImg, SIGNAL(sendMousePosition(QPoint&)), this, SLOT(showMousePosition(Qpoint&)));
+
     };
 
 
@@ -52,14 +54,30 @@ void MainWindow::on_actionAbrir_triggered(){
 
         if(valid) {
 //            ui->cuadroImg->setScaledContents(true);       // Con esta se ajusta la imagen al tamaño del widget
-            if((image_.width() > 2560)||(image_.height() > 1800))
+            if((image_.width() > 2560)&&(image_.height() > 1800))
                     image_ = image_.scaled(image_.width()/2,image_.height()/2);
             else
                 ui->cuadroImg->setGeometry(50,50,image_.width(),image_.height());
 
+
+            cout << "Hola:  " << image_.width()*image_.height() << endl;
+
+            if(!image_.allGray()){
+                grey_image_ = image_;
+                for (int ii = 0; ii < image_.width(); ii++) {
+                    for (int jj = 0; jj < image_.height(); jj++) {
+                        int gray = qGray(image_.pixel(ii, jj));
+                        grey_image_.setPixel(ii, jj, QColor(gray, gray, gray).rgb());
+                    }
+                }
+            }
+            else
+                grey_image_ = image_;
+
             ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
+            ui->cuadroImg->setGeometry(50,50,image_.width(),image_.height());
+
             this->setWindowTitle(name_.fileName());
-            cout << "Hola:  " << image_.depth() << endl;
         }
         else{
             cout << "Error cargando la imagen"  << endl;
@@ -72,8 +90,8 @@ void MainWindow::on_actionAbrir_triggered(){
 
 void MainWindow::on_actionDuplicar_triggered(){
 
-    //QWidget* W = new QWidget();
     MainWindow* W = new MainWindow(image_,name_.fileName());
+    W->ui->cuadroImg->setGeometry(50,50,image_.width(),image_.height());
     W->show();
 }
 
@@ -155,7 +173,7 @@ void MainWindow::on_actionHistograma_triggered()
 //    mPlot->replot();
 //=======
     */
-    Graphic grafico(image_, name_.fileName(), 0);
+    Graphic grafico(image_, grey_image_, name_.fileName(), 0);
     grafico.setModal(true);
     grafico.exec();
 
@@ -165,23 +183,21 @@ void MainWindow::on_actionHistograma_triggered()
 }
 void MainWindow::uno(){
 
-    Graphic grafico(image_, name_.fileName(), 0);
+    Graphic grafico(image_, grey_image_, name_.fileName(), 0);
     grafico.setModal(true);
     grafico.exec();
 
 }
-
 void MainWindow::dos(){
 
-    Graphic grafico(image_, name_.fileName(), 1);
+    Graphic grafico(image_, grey_image_, name_.fileName(), 1);
     grafico.setModal(true);
     grafico.exec();
 
 }
 void MainWindow::on_actionHistograma_Acumulado_triggered()
 {
-
-    Graphic grafico(image_, name_.fileName(), 1);
+    Graphic grafico(image_, grey_image_, name_.fileName(), 1);
     grafico.setModal(true);
     grafico.exec();
 }
@@ -232,23 +248,22 @@ void MainWindow::on_actionTama_o_triggered()
 
 void MainWindow::on_actionCambiar_Brillo_triggered()
 {
-    cout<<"brillo"<<endl;
-
-        QImage nueva;
-        nueva = image_;
-
+    QImage nueva;
+    nueva = image_;
+    int var = 0;
+    cin >> var;
 //        cout<<nueva.pixelColor(25,25).value();
 //               nueva.setPixel(25,25,qRgb(150,150,150));
-               for(int i =0;i<nueva.width();i++)
-                   for(int j=0; j<nueva.height();j++){
-                       int color= nueva.pixelColor(i,j).value() + 10;
-                       if (color>255) color = 255;
-                       if (color<0) color = 0;
-                        nueva.setPixel(i,j,qRgb(color,color,color));
-                   }
+    for(int i =0;i<nueva.width();i++)
+       for(int j=0; j<nueva.height();j++){
+           int color= nueva.pixelColor(i,j).value() + var;
+           if (color>255) color = 255;
+           if (color<0) color = 0;
+            nueva.setPixel(i,j,qRgb(color,color,color));
+       }
 
-            MainWindow* W = new MainWindow(nueva,name_.fileName());
-             W->show();
+    MainWindow* W = new MainWindow(nueva,name_.fileName());
+    W->show();
 
 }
 
@@ -283,13 +298,54 @@ void MainWindow::on_actionTramos_triggered()
 
  MainWindow* W = new MainWindow(nueva,name_.fileName());
   W->show();
-
-
 }
-
 
 void MainWindow::Mouse_current_pos()
 {
     ui->etiqueta_coordenadas->setText(QString("X = %1, Y = %2").arg(ui->cuadroImg->x).arg(ui->cuadroImg->y));
 }
 
+void MainWindow::on_actionEscala_de_grises_triggered()
+{
+
+    if(!image_.allGray()){
+        grey_image_ = image_;
+        for (int ii = 0; ii < image_.width(); ii++) {
+            for (int jj = 0; jj < image_.height(); jj++) {
+                QRgb pix = image_.pixel(ii,jj);
+                double red = qRed(pix);
+                double green = qGreen(pix);
+                double blue = qBlue(pix);
+                int gray = (0.222*red)+(0.707*green)+(0.071*blue);
+                grey_image_.setPixel(ii,jj,QColor(gray,gray,gray).rgb());
+            }
+        }
+    }
+    else
+        grey_image_ = image_;
+
+    MainWindow* W = new MainWindow(grey_image_,name_.fileName());
+
+    if((grey_image_.width() > 2560)&&(grey_image_.height() > 1800))
+            grey_image_ = grey_image_.scaled(grey_image_.width()/2,grey_image_.height()/2);
+    else
+        W->ui->cuadroImg->setGeometry(50,50,grey_image_.width(),grey_image_.height());
+
+    W->show();
+
+}
+
+void MainWindow::on_actionEcualizar_imagen_triggered()
+{
+
+
+////        cout<<nueva.pixelColor(25,25).value();
+////               nueva.setPixel(25,25,qRgb(150,150,150));
+//    for(int i =0;i<nueva.width();i++)
+//       for(int j=0; j<nueva.height();j++){
+//           int color= nueva.pixelColor(i,j).value() + 10;
+//           if (color>255) color = 255;
+//           if (color<0) color = 0;
+//            nueva.setPixel(i,j,qRgb(color,color,color));
+//       }
+}
