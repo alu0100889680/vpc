@@ -22,8 +22,7 @@ class Ui_Graphic
 {
 public:
     QCustomPlot *plot;
-    QPushButton *acumulativo;
-    QPushButton *histograma;
+    QPushButton *histograma_ec;
     QLabel *label;
     QLabel *etiqueta_tipo;
     QLabel *label_2;
@@ -32,6 +31,7 @@ public:
     QLabel *etiqueta_contraste;
     QLabel *label_4;
     QLabel *etiqueta_entropia;
+    QPushButton *pushButton;
 
     void setupUi(QDialog *Graphic)
     {
@@ -43,12 +43,9 @@ public:
         plot->setEnabled(true);
         plot->setGeometry(QRect(30, 30, 451, 391));
         plot->setMouseTracking(false);
-        acumulativo = new QPushButton(Graphic);
-        acumulativo->setObjectName(QStringLiteral("acumulativo"));
-        acumulativo->setGeometry(QRect(530, 90, 161, 41));
-        histograma = new QPushButton(Graphic);
-        histograma->setObjectName(QStringLiteral("histograma"));
-        histograma->setGeometry(QRect(560, 40, 93, 28));
+        histograma_ec = new QPushButton(Graphic);
+        histograma_ec->setObjectName(QStringLiteral("histograma_ec"));
+        histograma_ec->setGeometry(QRect(510, 80, 161, 28));
         label = new QLabel(Graphic);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(40, 440, 101, 16));
@@ -73,6 +70,9 @@ public:
         etiqueta_entropia = new QLabel(Graphic);
         etiqueta_entropia->setObjectName(QStringLiteral("etiqueta_entropia"));
         etiqueta_entropia->setGeometry(QRect(150, 500, 141, 16));
+        pushButton = new QPushButton(Graphic);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(510, 40, 161, 28));
 
         retranslateUi(Graphic);
 
@@ -82,8 +82,7 @@ public:
     void retranslateUi(QDialog *Graphic)
     {
         Graphic->setWindowTitle(QApplication::translate("Graphic", "Dialog", nullptr));
-        acumulativo->setText(QApplication::translate("Graphic", "Histograma acumulado", nullptr));
-        histograma->setText(QApplication::translate("Graphic", "Histograma", nullptr));
+        histograma_ec->setText(QApplication::translate("Graphic", "Histograma ecualizado", nullptr));
         label->setText(QApplication::translate("Graphic", "Tipo de archivo: ", nullptr));
         etiqueta_tipo->setText(QString());
         label_2->setText(QApplication::translate("Graphic", "Media/ Brillo:", nullptr));
@@ -92,6 +91,7 @@ public:
         etiqueta_contraste->setText(QString());
         label_4->setText(QApplication::translate("Graphic", "Entrop\303\255a: ", nullptr));
         etiqueta_entropia->setText(QString());
+        pushButton->setText(QApplication::translate("Graphic", "Histograma acumulado", nullptr));
     } // retranslateUi
 
 };

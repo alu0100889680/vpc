@@ -11,7 +11,7 @@
 #include <QEvent>
 #include <QDebug>
 #include <QLabel>
-
+#include <math.h>
 
 using namespace std;
 
@@ -25,7 +25,7 @@ class Graphic : public QDialog
 
 public:
     explicit Graphic(QWidget *parent = nullptr);
-    Graphic(QImage img, QFileInfo name, int acumu);
+    Graphic(QImage img, QImage grey_img, QFileInfo name, int acumu);
 
 
     ~Graphic();
@@ -34,12 +34,16 @@ private slots:
 
     void on_acumulativo_clicked();
     void on_histograma_clicked();
+    void on_histograma_ec_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::Graphic *ui;
-    QVector<double> x_,lista_, color_table_, acumulativo_;
+    QVector<double> x_,lista_, color_table_, acumulativo_, ecualizado_, ecualizado_acum_;
+    QVector<QVector<double> > matriz_;
     double contador_, max_;
-    QImage image_;
+    QImage image_, grey_;
     QFileInfo name_;
 };
 

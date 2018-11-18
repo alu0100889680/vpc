@@ -29,30 +29,17 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="acumulativo">
+  <widget class="QPushButton" name="histograma_ec">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>90</y>
+     <x>510</x>
+     <y>80</y>
      <width>161</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Histograma acumulado</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="histograma">
-   <property name="geometry">
-    <rect>
-     <x>560</x>
-     <y>40</y>
-     <width>93</width>
      <height>28</height>
     </rect>
    </property>
    <property name="text">
-    <string>Histograma</string>
+    <string>Histograma ecualizado</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -157,6 +144,19 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>40</y>
+     <width>161</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Histograma acumulado</string>
    </property>
   </widget>
  </widget>
