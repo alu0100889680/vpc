@@ -101,7 +101,7 @@
      <x>0</x>
      <y>0</y>
      <width>407</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -127,12 +127,20 @@
      <string>Editar</string>
     </property>
     <addaction name="actionCambiar_Brillo"/>
+    <addaction name="actionCambiar_Contraste"/>
     <addaction name="actionTransformaci_n_por_Tramos"/>
     <addaction name="actionEscala_de_grises"/>
+    <addaction name="actionCorrecci_on_Gamma"/>
+   </widget>
+   <widget class="QMenu" name="menuPrueba">
+    <property name="title">
+     <string>Prueba</string>
+    </property>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuAnalizar"/>
    <addaction name="menuEditar"/>
+   <addaction name="menuPrueba"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -225,6 +233,16 @@
   <action name="actionEcualizar_imagen">
    <property name="text">
     <string>Ecualizar imagen</string>
+   </property>
+  </action>
+  <action name="actionCambiar_Contraste">
+   <property name="text">
+    <string>Cambiar Contraste</string>
+   </property>
+  </action>
+  <action name="actionCorrecci_on_Gamma">
+   <property name="text">
+    <string>Corrección Gamma</string>
    </property>
   </action>
  </widget>

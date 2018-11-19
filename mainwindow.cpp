@@ -251,6 +251,7 @@ void MainWindow::on_actionCambiar_Brillo_triggered()
     QImage nueva;
     nueva = image_;
     int var = 0;
+     cout<<"Inserte variación del brillo: ";
     cin >> var;
 //        cout<<nueva.pixelColor(25,25).value();
 //               nueva.setPixel(25,25,qRgb(150,150,150));
@@ -266,6 +267,99 @@ void MainWindow::on_actionCambiar_Brillo_triggered()
     W->show();
 
 }
+
+void MainWindow::on_actionCambiar_Contraste_triggered()
+{
+    QImage nueva;
+    nueva = image_;
+    int var = 0;
+    cout<<"Inserte variación del contraste: ";
+    cin >> var;
+//        cout<<nueva.pixelColor(25,25).value();
+//               nueva.setPixel(25,25,qRgb(150,150,150));
+QVector<double> x_,lista_, color_table_, acumulativo_;
+double contador_ = 0.0;
+
+
+        nueva = nueva.convertToFormat(QImage::Format_RGB888);   // Convertir a RGB de 8 bits
+        uchar *bits = nueva.bits();
+
+        // Lista de todos los colores
+        for (int i = 0; i < (nueva.width() * nueva.height() * 3); i++)
+            lista_.push_back(bits[i]);
+
+
+        // Lista de pixeles / color
+        for (int i = 0; i < 256; i++){
+            int cont = lista_.count(i);
+            x_.push_back(i);
+            color_table_.push_back(cont);
+            contador_ += cont;
+        }
+
+        acumulativo_.push_back(color_table_[0]);
+        for (int i =1; i<color_table_.size(); i++){
+            acumulativo_.push_back(color_table_[i]+acumulativo_[i-1]);
+        }
+
+        double sumatorio = 0.0, sumatorio2= 0.0,  media = 0.0, desvt = 0.0;
+
+        // MEDIA / BRILLO
+        for (int i = 0; i < 256; i++){
+                sumatorio = sumatorio + color_table_[i]*i;
+        }
+        media = sumatorio / contador_;
+
+        // DT / CONTRASTE
+        for (int i = 0; i < 256; i++){
+                double potencia = pow(i-media, 2);
+                sumatorio2 = sumatorio2 + round(potencia*color_table_[i]);
+        }
+        desvt = sqrt(sumatorio2/contador_);
+
+cout<<media<<" "<<desvt<<endl;
+double A = (desvt + var)/ desvt;
+double B = media - A * media;
+
+cout<<A<<" "<<B<<endl;
+
+    for(int i =0;i<nueva.width();i++)
+       for(int j=0; j<nueva.height();j++){
+           int color= A * nueva.pixelColor(i,j).value() + B;
+           if (color>255) color = 255;
+           if (color<0) color = 0;
+           nueva.setPixel(i,j,qRgb(color,color,color));
+       }
+
+    MainWindow* W = new MainWindow(nueva,name_.fileName());
+    W->show();
+
+}
+
+void MainWindow::on_actionCorrecci_on_Gamma_triggered()
+{
+    QImage nueva;
+    nueva = image_;
+    double var = 0.0;
+     cout<<"Inserte función Gamma: ";
+    cin >> var;
+
+    for(int i =0;i<nueva.width();i++)
+       for(int j=0; j<nueva.height();j++){
+           double A= nueva.pixelColor(i,j).value();
+           A = A/255;
+           double B = pow(A,var);//cout<<"A= "<<A<<endl<<"B= "<<B<<endl;
+           int color = round(B*255);
+           if (color>255) color = 255;
+           if (color<0) color = 0;
+            nueva.setPixel(i,j,qRgb(color,color,color));
+       }
+
+    MainWindow* W = new MainWindow(nueva,name_.fileName());
+    W->show();
+
+}
+
 
 void MainWindow::on_actionTramos_triggered()
 {

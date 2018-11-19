@@ -40,6 +40,8 @@ private slots:
     void on_actionTama_o_triggered();
     void on_actionCambiar_Brillo_triggered();
     void on_actionTramos_triggered();
+    void on_actionCambiar_Contraste_triggered();
+    void on_actionCorrecci_on_Gamma_triggered();
 
 
     void Mouse_current_pos();
