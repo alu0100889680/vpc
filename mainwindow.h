@@ -33,6 +33,7 @@ public:
 private slots:
 
     void on_actionAbrir_triggered();
+    void on_actionGuardar_triggered();
     void on_actionDuplicar_triggered();
     void on_actionHistograma_triggered();
     void on_actionHistograma_Acumulado_triggered();
@@ -42,6 +43,7 @@ private slots:
     void on_actionTramos_triggered();
     void on_actionCambiar_Contraste_triggered();
     void on_actionCorrecci_on_Gamma_triggered();
+    void on_actionDiferencia_triggered();
 
 
     void Mouse_current_pos();

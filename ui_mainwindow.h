@@ -45,6 +45,7 @@ public:
     QAction *actionEcualizar_imagen;
     QAction *actionCambiar_Contraste;
     QAction *actionCorrecci_on_Gamma;
+    QAction *actionDiferencia;
     QWidget *centralWidget;
     my_qlabel *cuadroImg;
     QLabel *etiqueta_coordenadas;
@@ -98,6 +99,8 @@ public:
         actionCambiar_Contraste->setObjectName(QStringLiteral("actionCambiar_Contraste"));
         actionCorrecci_on_Gamma = new QAction(MainWindow);
         actionCorrecci_on_Gamma->setObjectName(QStringLiteral("actionCorrecci_on_Gamma"));
+        actionDiferencia = new QAction(MainWindow);
+        actionDiferencia->setObjectName(QStringLiteral("actionDiferencia"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         cuadroImg = new my_qlabel(centralWidget);
@@ -159,6 +162,7 @@ public:
         menuEditar->addAction(actionTransformaci_n_por_Tramos);
         menuEditar->addAction(actionEscala_de_grises);
         menuEditar->addAction(actionCorrecci_on_Gamma);
+        menuEditar->addAction(actionDiferencia);
 
         retranslateUi(MainWindow);
 
@@ -185,6 +189,7 @@ public:
         actionEcualizar_imagen->setText(QApplication::translate("MainWindow", "Ecualizar imagen", 0));
         actionCambiar_Contraste->setText(QApplication::translate("MainWindow", "Cambiar Contraste", 0));
         actionCorrecci_on_Gamma->setText(QApplication::translate("MainWindow", "Correcci\303\263n Gamma", 0));
+        actionDiferencia->setText(QApplication::translate("MainWindow", "Diferencia de Im\303\241genes", 0));
         cuadroImg->setText(QString());
         etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0", 0));
         menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", 0));

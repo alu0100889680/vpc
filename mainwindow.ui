@@ -131,6 +131,7 @@
     <addaction name="actionTransformaci_n_por_Tramos"/>
     <addaction name="actionEscala_de_grises"/>
     <addaction name="actionCorrecci_on_Gamma"/>
+    <addaction name="actionDiferencia"/>
    </widget>
    <widget class="QMenu" name="menuPrueba">
     <property name="title">
@@ -243,6 +244,11 @@
   <action name="actionCorrecci_on_Gamma">
    <property name="text">
     <string>Corrección Gamma</string>
+   </property>
+  </action>
+  <action name="actionDiferencia">
+   <property name="text">
+    <string>Diferencia de Imágenes</string>
    </property>
   </action>
  </widget>
