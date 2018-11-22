@@ -51,6 +51,7 @@ private slots:
     void uno();
     void dos();
 
+
     void on_actionEscala_de_grises_triggered();
 
 
