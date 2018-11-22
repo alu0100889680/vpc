@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'graphic.ui'
 **
-** Created by: Qt User Interface Compiler version 5.11.2
+** Created by: Qt User Interface Compiler version 5.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,8 +10,11 @@
 #define UI_GRAPHIC_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <qcustomplot.h>
@@ -31,7 +34,7 @@ public:
     QLabel *etiqueta_contraste;
     QLabel *label_4;
     QLabel *etiqueta_entropia;
-    QPushButton *pushButton;
+    QPushButton *acumulativo;
 
     void setupUi(QDialog *Graphic)
     {
@@ -70,9 +73,9 @@ public:
         etiqueta_entropia = new QLabel(Graphic);
         etiqueta_entropia->setObjectName(QStringLiteral("etiqueta_entropia"));
         etiqueta_entropia->setGeometry(QRect(150, 500, 141, 16));
-        pushButton = new QPushButton(Graphic);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(510, 40, 161, 28));
+        acumulativo = new QPushButton(Graphic);
+        acumulativo->setObjectName(QStringLiteral("acumulativo"));
+        acumulativo->setGeometry(QRect(510, 40, 161, 28));
 
         retranslateUi(Graphic);
 
@@ -81,17 +84,17 @@ public:
 
     void retranslateUi(QDialog *Graphic)
     {
-        Graphic->setWindowTitle(QApplication::translate("Graphic", "Dialog", nullptr));
-        histograma_ec->setText(QApplication::translate("Graphic", "Histograma ecualizado", nullptr));
-        label->setText(QApplication::translate("Graphic", "Tipo de archivo: ", nullptr));
+        Graphic->setWindowTitle(QApplication::translate("Graphic", "Dialog", 0));
+        histograma_ec->setText(QApplication::translate("Graphic", "Histograma ecualizado", 0));
+        label->setText(QApplication::translate("Graphic", "Tipo de archivo: ", 0));
         etiqueta_tipo->setText(QString());
-        label_2->setText(QApplication::translate("Graphic", "Media/ Brillo:", nullptr));
+        label_2->setText(QApplication::translate("Graphic", "Media/ Brillo:", 0));
         etiqueta_brillo->setText(QString());
-        label_3->setText(QApplication::translate("Graphic", "DT / Contraste:", nullptr));
+        label_3->setText(QApplication::translate("Graphic", "DT / Contraste:", 0));
         etiqueta_contraste->setText(QString());
-        label_4->setText(QApplication::translate("Graphic", "Entrop\303\255a: ", nullptr));
+        label_4->setText(QApplication::translate("Graphic", "Entrop\303\255a: ", 0));
         etiqueta_entropia->setText(QString());
-        pushButton->setText(QApplication::translate("Graphic", "Histograma acumulado", nullptr));
+        acumulativo->setText(QApplication::translate("Graphic", "Histograma acumulado", 0));
     } // retranslateUi
 
 };
