@@ -74,6 +74,21 @@ void MainWindow::on_actionAbrir_triggered(){
             else
                 grey_image_ = image_;
 
+            QImage img = image_.convertToFormat(QImage::Format_RGB888);   // Convertir a RGB de 8 bits
+            uchar *bits = img.bits();
+
+            for (int i = 0; i < (image_.width() * image_.height() * 3); i++)
+                lista_.push_back(bits[i]);
+
+            for (int i = 0; i < 256; i++){
+                int cont = lista_.count(i);
+                histograma_.push_back(cont);
+            }
+            acumulativo_.push_back(histograma_[0]);
+            for (int i =1; i<histograma_.size(); i++){
+                acumulativo_.push_back(histograma_[i]+acumulativo_[i-1]);
+            }
+
             ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
             ui->cuadroImg->setGeometry(50,50,image_.width(),image_.height());
 
@@ -505,15 +520,59 @@ void MainWindow::on_actionEscala_de_grises_triggered()
 
 void MainWindow::on_actionEcualizar_imagen_triggered()
 {
+    double max = 0;
+    QVector<double> vout;
+    double K = (image_.width()*image_.height())/256;
+
+    QImage img_ec;
+    img_ec = image_;
+
+    for(int i = 0; i < 256; i++){
+        double a = floor(acumulativo_[lista_[i]]/K) -1;
+        if(a<256)
+            vout.push_back(a);
+        else
+            vout.push_back(255);
+    }
+//    for(int i = 0; i < 256; i++){
+//        cout << "vout: " << vout[i] << endl;
+//        cout << "lista: " << lista_[i] << endl;
+//        cout << "histograma: " << histograma_[i] << endl;
+//    }
+
+    for (int ii = 0; ii < img_ec.width(); ii++) {
+        for (int jj = 0; jj < img_ec.height(); jj++){
+            QRgb c = img_ec.pixel(ii,jj);
+            double azul = qBlue(c);
+            double verde = qGreen(c);
+            double rojo = qRed(c);
+           // cout << " " << rojo << " " << verde << " " << azul << endl;
+           // cout << vout[azul];
+            img_ec.setPixel(ii, jj, QColor(vout[rojo],vout[verde],vout[azul]).rgb());
+        }
+    }
+    if(img_ec != image_)
+        cout << " Son distintas" << endl;
+
+    for (int ii = 0; ii < img_ec.width(); ii++) {
+        for (int jj = 0; jj < img_ec.height(); jj++){
+            QRgb c = img_ec.pixel(ii,jj);
+            double azul = qBlue(c);
+            double verde = qGreen(c);
+            double rojo = qRed(c);
+//            cout << " " << rojo << " " << verde << " " << azul << endl;
+         }
+    }
 
 
-////        cout<<nueva.pixelColor(25,25).value();
-////               nueva.setPixel(25,25,qRgb(150,150,150));
-//    for(int i =0;i<nueva.width();i++)
-//       for(int j=0; j<nueva.height();j++){
-//           int color= nueva.pixelColor(i,j).value() + 10;
-//           if (color>255) color = 255;
-//           if (color<0) color = 0;
-//            nueva.setPixel(i,j,qRgb(color,color,color));
-//       }
+    image_ = img_ec;
+
+    MainWindow* W = new MainWindow(img_ec,name_.fileName());
+    W->show();
+
+
+
+//    Graphic grafico2(img_ec,grey_image_, name_.fileName(), 2);
+//    grafico2.setModal(true);
+//    grafico2.exec();
 }

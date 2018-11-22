@@ -11,6 +11,7 @@
 #include <iostream>
 #include <QVBoxLayout>
 #include <math.h>
+#include <algorithm>    // std::max
 
 
 
@@ -29,6 +30,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     MainWindow( QImage img, QString title);
     ~MainWindow();
+    Ui::MainWindow *ui;
 
 private slots:
 
@@ -60,9 +62,10 @@ private:
 
     QImage image_, grey_image_;
     QFileInfo name_;
-    QVector<QVector<QColor> > vector_; //monocolor -> red = blue = green
+    QVector<QVector<QColor> > vector_;
+    QVector<double> acumulativo_, histograma_, lista_; //monocolor -> red = blue = green
     // Añadir atributo bool monocromo o no
-    Ui::MainWindow *ui;
+
     Graphic *grafico;
     QVBoxLayout *mLayout;
     QCustomPlot *mPlot;

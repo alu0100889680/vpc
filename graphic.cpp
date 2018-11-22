@@ -6,7 +6,8 @@
 
 Graphic::Graphic(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Graphic)
+    ui(new Ui::Graphic),
+    vin_(256)
 {
     ui->setupUi(this);
     this->setWindowTitle("Histograma");
@@ -14,9 +15,10 @@ Graphic::Graphic(QWidget *parent) :
     int size = 10;
     QVector<double> x(10), y(size);
 
-    for(int i = 0; i < 256; i++)
+    for(int i = 0; i < 256; i++){
         x[i] = i;
-
+        vin_.push_back(i);
+    }
     ui->plot->addGraph();
     ui->plot->graph(0)->setData(x,y);
     ui->plot->xAxis->setRange(0,256);
@@ -44,6 +46,9 @@ Graphic::Graphic(QImage img,QImage grey_img, QFileInfo name, int acumu):
     for (int i = 0; i < (img.width() * img.height() * 3); i++)
         lista_.push_back(bits[i]);
 
+    for(int i = 0; i < 256; i++){
+        vin_.push_back(i);
+    }
 
     // Lista de pixeles / color
     for (int i = 0; i < 256; i++){
@@ -57,9 +62,6 @@ Graphic::Graphic(QImage img,QImage grey_img, QFileInfo name, int acumu):
     for (int i =1; i<color_table_.size(); i++){
         acumulativo_.push_back(color_table_[i]+acumulativo_[i-1]);
     }
-
-
-
 
     double sumatorio = 0.0, sumatorio2= 0.0, sumatorio3 = 0.0, media = 0.0, desvt = 0.0, entropia = 0.0;
 
@@ -188,43 +190,73 @@ void Graphic::on_histograma_clicked()
 void Graphic::on_histograma_ec_clicked()
 {
     double max = 0;
+    QVector<double> vout;
     double K = (image_.width()*image_.height())/256;
     for(int i = 0; i < 256; i++){
-        double a = round(acumulativo_[i]*lista_[i]/K)-1;
-        if(a > 0)
-            ecualizado_.push_back(a);
+        double a = floor(acumulativo_[vin_[i]]/K) -1;
+        if(a<256)
+            vout.push_back(a);
         else
-            ecualizado_.push_back(0);
-        if(i==0)
-            ecualizado_acum_.push_back(ecualizado_[i]);
-        else
-            ecualizado_acum_.push_back(ecualizado_[i]+ecualizado_acum_[i-1]);
+            vout.push_back(255);
+//         Vout = max { 0, round [C0(Vin) * M/SIZE] – 1 }
+
+//        Vout = floor ( C0(Vin) * (M-1)/SIZE )
+//        double a = round(acumulativo_[vin_[i]]*lista_[i]/K)-1;
+//        if(a > 0)
+//            vout.push_back(a);
+//        else
+//            vout.push_back(0);
+//        if(i==0)
+//            ecualizado_acum_.push_back(ecualizado_[i]);
+//        else
+//            ecualizado_acum_.push_back(ecualizado_[i]+ecualizado_acum_[i-1]);
     }
 
+    QImage img_ec;
+    img_ec = image_;
 
-        // Ecualizar por pixel - No funciona. Da valores muy grandes y el histograma no esta bien
-    QVector<double> vin, vout(256);
-    for(int i = 0; i < 256; i++)
-        vin.push_back(i);
+    for (int ii = 0; ii < img_ec.width(); ii++) {
+        for (int jj = 0; jj < img_ec.height(); jj++){
+            QRgb c = img_ec.pixel(ii,jj);
+            double azul = qBlue(c);
+            double verde = qGreen(c);
+            double rojo = qRed(c);
 
-    for(int i = 0; i < acumulativo_.size(); i++){
 
-        int j = i;
-        if(j!=255){
-            while(floor(acumulativo_[j]) == floor(acumulativo_[j+1])){
-                j++;
-            }
+            img_ec.setPixel(ii, jj, QColor(vout[rojo],vout[verde],vout[azul]).rgb());
         }
-        for(int k = j; k >= i; k--){
-//                vout[k] = floor((acumulativo_[i]/(image_.width()*image_.height()*3))*255);
-//                    vout[k] = (((acumulativo_[i]*lista_[i])/K)/255);
-            vout[k] = (round(acumulativo_[vin[i]]/K)-1);
-        }
     }
-    for(int i = 0; i <256; i++){
-        cout << "i = " << i << " Vin= " << vin[i] << " Vout= " << vout[i] << endl;
-    }
+    if(img_ec != image_)
+        cout << " Son distintas" << endl;
 
+//        MainWindow* W = new MainWindow(img_ec,name_.fileName());
+//        W->ui->cuadroImg->setGeometry(50,50,img_ec.width(),img_ec.height());
+//        W->show();
+
+
+
+//        // Ecualizar por pixel - No funciona. Da valores muy grandes y el histograma no esta bien
+//    QVector<double> vin, vout(256);
+//    for(int i = 0; i < 256; i++)
+//        vin.push_back(i);
+
+//    for(int i = 0; i < acumulativo_.size(); i++){
+
+//        int j = i;
+//        if(j!=255){
+//            while(floor(acumulativo_[j]) == floor(acumulativo_[j+1])){
+//                j++;
+//            }
+//        }
+//        for(int k = j; k >= i; k--){
+////                vout[k] = floor((acumulativo_[i]/(image_.width()*image_.height()*3))*255);
+////                    vout[k] = (((acumulativo_[i]*lista_[i])/K)/255);
+//            vout[k] = (round(acumulativo_[vin[i]]/K)-1);
+//        }
+//    }
+//    for(int i = 0; i <256; i++){
+//        cout << "i = " << i << " Vin= " << vin[i] << " Vout= " << vout[i] << endl;
+//    }
 
 
 
@@ -294,42 +326,8 @@ void Graphic::on_histograma_ec_clicked()
 //        }
 //    }
 
-//    for(int i =0;i<nueva.width();i++)
-//       for(int j=0; j<nueva.height();j++){
-//           int color= nueva.pixelColor(i,j).value() + 10;
-//           if (color>255) color = 255;
-//           if (color<0) color = 0;
-//            nueva.setPixel(i,j,);
-//       }
 
-
-//    QVector<double> vin, vout(256);
-//    for(int i = 0; i < acumulativo_.size(); i++){
-//        vin.push_back(i);
-//        int j = i;
-//        if(j!=255){
-//            while(acumulativo_[j] == acumulativo_[j+1]){
-//                if(j!=255)
-//                    j++;
-//            }
-//        }
-//        for(int k = j; k <= i; k--){
-//            vout[k] = acumulativo_[i]/(image_.width()*image_.height())*255;
-//        }
-//    }
-//    for(int i = 0; i <256; i++){
-//        cout << "i = " << i << " Vin= " << vin[i] << " Vout= " << vout[i] << endl;
-//    }
-
-
-//    for(int i =1;i<nueva.width();i+3)
-//       for(int j=1; j<nueva.height();j+3){
-
-//            nueva.setPixel(i,j,qRgb(vout[i-1],vout[i],vout[i+1]));
-//       }
-
-
-    Graphic grafico2(image_,grey_, name_.fileName(), 2);
+    Graphic grafico2(img_ec,grey_, name_.fileName(), 2);
     grafico2.setModal(true);
     grafico2.exec();
 }
@@ -347,7 +345,6 @@ void Graphic::on_pushButton_clicked()
 //    }
 
 //    x.setPixel(i,j,qRgb(color,color,color));
-//    MainWindow* W = new MainWindow(image_,name_.fileName());
 
 
 

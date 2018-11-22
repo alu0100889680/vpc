@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QLabel>
 #include <math.h>
+#include <QWidget>
 
 using namespace std;
 
@@ -40,7 +41,7 @@ private slots:
 
 private:
     Ui::Graphic *ui;
-    QVector<double> x_,lista_, color_table_, acumulativo_, ecualizado_, ecualizado_acum_;
+    QVector<double> x_,lista_, color_table_, acumulativo_, ecualizado_, ecualizado_acum_, vin_;
     QVector<QVector<double> > matriz_;
     double contador_, max_;
     QImage image_, grey_;
