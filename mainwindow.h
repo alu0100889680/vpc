@@ -46,6 +46,9 @@ private slots:
     void on_actionCambiar_Contraste_triggered();
     void on_actionCorrecci_on_Gamma_triggered();
     void on_actionDiferencia_triggered();
+    void on_actionRecortar_triggered();
+    void on_actionCambiar_ByC_triggered();
+    void on_actionUmbralizar_triggered();
 
 
     void Mouse_current_pos();

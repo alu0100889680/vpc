@@ -39,13 +39,16 @@ public:
     QAction *actionHola;
     QAction *actionNUEVO;
     QAction *actionCambiar_Brillo;
-    QAction *actionTransformaci_n_por_Tramos;
+    QAction *actionTramos;
     QAction *actionEscala_de_grises;
     QAction *actionE;
     QAction *actionEcualizar_imagen;
     QAction *actionCambiar_Contraste;
     QAction *actionCorrecci_on_Gamma;
     QAction *actionDiferencia;
+    QAction *actionRecortar;
+    QAction *actionCambiar_ByC;
+    QAction *actionUmbralizar;
     QWidget *centralWidget;
     my_qlabel *cuadroImg;
     QLabel *etiqueta_coordenadas;
@@ -87,8 +90,8 @@ public:
         actionNUEVO->setObjectName(QStringLiteral("actionNUEVO"));
         actionCambiar_Brillo = new QAction(MainWindow);
         actionCambiar_Brillo->setObjectName(QStringLiteral("actionCambiar_Brillo"));
-        actionTransformaci_n_por_Tramos = new QAction(MainWindow);
-        actionTransformaci_n_por_Tramos->setObjectName(QStringLiteral("actionTransformaci_n_por_Tramos"));
+        actionTramos = new QAction(MainWindow);
+        actionTramos->setObjectName(QStringLiteral("actionTramos"));
         actionEscala_de_grises = new QAction(MainWindow);
         actionEscala_de_grises->setObjectName(QStringLiteral("actionEscala_de_grises"));
         actionE = new QAction(MainWindow);
@@ -101,6 +104,12 @@ public:
         actionCorrecci_on_Gamma->setObjectName(QStringLiteral("actionCorrecci_on_Gamma"));
         actionDiferencia = new QAction(MainWindow);
         actionDiferencia->setObjectName(QStringLiteral("actionDiferencia"));
+        actionRecortar = new QAction(MainWindow);
+        actionRecortar->setObjectName(QStringLiteral("actionRecortar"));
+        actionCambiar_ByC = new QAction(MainWindow);
+        actionCambiar_ByC->setObjectName(QStringLiteral("actionCambiar_ByC"));
+        actionUmbralizar = new QAction(MainWindow);
+        actionUmbralizar->setObjectName(QStringLiteral("actionUmbralizar"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         cuadroImg = new my_qlabel(centralWidget);
@@ -159,10 +168,13 @@ public:
         menuAnalizar->addAction(actionEcualizar_imagen);
         menuEditar->addAction(actionCambiar_Brillo);
         menuEditar->addAction(actionCambiar_Contraste);
-        menuEditar->addAction(actionTransformaci_n_por_Tramos);
+        menuEditar->addAction(actionCambiar_ByC);
+        menuEditar->addAction(actionTramos);
+        menuEditar->addAction(actionUmbralizar);
         menuEditar->addAction(actionEscala_de_grises);
         menuEditar->addAction(actionCorrecci_on_Gamma);
         menuEditar->addAction(actionDiferencia);
+        menuEditar->addAction(actionRecortar);
 
         retranslateUi(MainWindow);
 
@@ -183,13 +195,16 @@ public:
         actionHola->setText(QApplication::translate("MainWindow", "hola", 0));
         actionNUEVO->setText(QApplication::translate("MainWindow", "NUEVO", 0));
         actionCambiar_Brillo->setText(QApplication::translate("MainWindow", "Cambiar Brillo", 0));
-        actionTransformaci_n_por_Tramos->setText(QApplication::translate("MainWindow", "Transformaci\303\263n por Tramos", 0));
+        actionTramos->setText(QApplication::translate("MainWindow", "Transformaci\303\263n por Tramos", 0));
         actionEscala_de_grises->setText(QApplication::translate("MainWindow", "Escala de grises", 0));
         actionE->setText(QApplication::translate("MainWindow", "Ecualizar imagen", 0));
         actionEcualizar_imagen->setText(QApplication::translate("MainWindow", "Ecualizar imagen", 0));
         actionCambiar_Contraste->setText(QApplication::translate("MainWindow", "Cambiar Contraste", 0));
         actionCorrecci_on_Gamma->setText(QApplication::translate("MainWindow", "Correcci\303\263n Gamma", 0));
         actionDiferencia->setText(QApplication::translate("MainWindow", "Diferencia de Im\303\241genes", 0));
+        actionRecortar->setText(QApplication::translate("MainWindow", "Recortar", 0));
+        actionCambiar_ByC->setText(QApplication::translate("MainWindow", "Cambiar Brillo y Contraste", 0));
+        actionUmbralizar->setText(QApplication::translate("MainWindow", "Umbralizar", 0));
         cuadroImg->setText(QString());
         etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0", 0));
         menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", 0));

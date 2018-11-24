@@ -128,10 +128,13 @@
     </property>
     <addaction name="actionCambiar_Brillo"/>
     <addaction name="actionCambiar_Contraste"/>
-    <addaction name="actionTransformaci_n_por_Tramos"/>
+    <addaction name="actionCambiar_ByC"/>
+    <addaction name="actionTramos"/>
+    <addaction name="actionUmbralizar"/>
     <addaction name="actionEscala_de_grises"/>
     <addaction name="actionCorrecci_on_Gamma"/>
     <addaction name="actionDiferencia"/>
+    <addaction name="actionRecortar"/>
    </widget>
    <widget class="QMenu" name="menuPrueba">
     <property name="title">
@@ -216,7 +219,7 @@
     <string>Cambiar Brillo</string>
    </property>
   </action>
-  <action name="actionTransformaci_n_por_Tramos">
+  <action name="actionTramos">
    <property name="text">
     <string>Transformación por Tramos</string>
    </property>
@@ -249,6 +252,21 @@
   <action name="actionDiferencia">
    <property name="text">
     <string>Diferencia de Imágenes</string>
+   </property>
+  </action>
+  <action name="actionRecortar">
+   <property name="text">
+    <string>Recortar</string>
+   </property>
+  </action>
+  <action name="actionCambiar_ByC">
+   <property name="text">
+    <string>Cambiar Brillo y Contraste</string>
+   </property>
+  </action>
+  <action name="actionUmbralizar">
+   <property name="text">
+    <string>Umbralizar</string>
    </property>
   </action>
  </widget>

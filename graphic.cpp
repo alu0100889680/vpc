@@ -84,11 +84,12 @@ Graphic::Graphic(QImage img,QImage grey_img, QFileInfo name, int acumu):
     ui->etiqueta_contraste->setText(desvt_s);
 
     // ENTROPIA - NO SE SI ESTA BIEN EL RESULTADO :(
+    double size = image_.width()*image_.height();
     for (int i = 0; i < 256; i++){
-            double pi = color_table_[i]/contador_;
-            sumatorio3 = sumatorio3 - (pi*log(pi));
+            double pi = color_table_[i]/size;
+            sumatorio3 = sumatorio3 + (pi*log2(pi));
     }
-    entropia = sumatorio;
+    entropia = -sumatorio3;
     QString entropia_s = QString::number(entropia);
     ui->etiqueta_entropia->setText(entropia_s);
 
