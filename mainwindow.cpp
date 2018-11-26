@@ -563,25 +563,6 @@ void MainWindow::on_actionDiferencia_triggered()
                 MainWindow* W = new MainWindow(diferencia,name_.fileName());
                  W->show();
 
-                cout<<"¿Desea umbralizar la imagen original con la diferencia resultado? En caso afirmativo introduzca el umbral. Pulse 0 para salir: ";
-                int umbral;
-                cin>>umbral;
-                if(umbral>0 &&umbral<256){
-
-                    QImage umbralizada = image_;
-                    for(int i =0;i<image_.width();i++){
-                        for(int j=0; j<image_.height();j++){
-                            if(diferencia.pixelColor(i,j).value() >= umbral)
-                                umbralizada.setPixel(i,j,qRgb(255,0,0));
-                        }
-                    }
-
-                    MainWindow* W2 = new MainWindow(umbralizada,name_.fileName());
-                     W2->show();
-                }
-
-
-
             }else{
                 cout<<"Las imagenes deben ser del mismo tamaño para poder hacerles la diferencia."<<endl;
             }
@@ -592,6 +573,63 @@ void MainWindow::on_actionDiferencia_triggered()
         }
 
 }
+
+void MainWindow::on_actionUmbralizar_con_Imagen_Diferencia_triggered(){
+
+    QString filename2 = QFileDialog::getOpenFileName(this, tr("Selecciona una imagen"), "", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
+    QFileInfo file2 = filename2;
+    QImage img_diferencia;
+
+
+    if(QString::compare(filename2, QString()) != 0){
+
+
+        bool valid = img_diferencia.load(filename2);
+
+
+        if(valid) {
+            if(image_.width()==img_diferencia.width() && image_.height()==img_diferencia.height()){
+
+                int umbral;
+                cout<<endl<<"Introduzca el umbral: ";
+                cin>>umbral;
+                if(umbral>0 &&umbral<256){
+
+                    QImage umbralizada = image_;
+                    for(int i =0;i<image_.width();i++){
+                        for(int j=0; j<image_.height();j++){
+                            if(img_diferencia.pixelColor(i,j).value() >= umbral)
+                                umbralizada.setPixel(i,j,qRgb(255,0,0));
+                        }
+                    }
+
+                    MainWindow* W2 = new MainWindow(umbralizada,name_.fileName());
+                     W2->show();
+                }
+
+
+            }else{
+                cout<<"Las imagenes deben ser del mismo tamaño para poder hacerles el umbralizado con la diferencia."<<endl;
+            }
+        }
+        }
+        else{
+            cout << "Error cargando la imagen"  << endl;
+        }
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
 void MainWindow::Mouse_current_pos()
 {
     ui->etiqueta_coordenadas->setText(QString("X = %1, Y = %2").arg(ui->cuadroImg->x).arg(ui->cuadroImg->y));

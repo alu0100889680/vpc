@@ -35,6 +35,8 @@ public:
     QLabel *label_4;
     QLabel *etiqueta_entropia;
     QPushButton *acumulativo;
+    QLabel *label_5;
+    QLabel *etiqueta_rango;
 
     void setupUi(QDialog *Graphic)
     {
@@ -76,6 +78,12 @@ public:
         acumulativo = new QPushButton(Graphic);
         acumulativo->setObjectName(QStringLiteral("acumulativo"));
         acumulativo->setGeometry(QRect(510, 40, 161, 28));
+        label_5 = new QLabel(Graphic);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(340, 500, 91, 16));
+        etiqueta_rango = new QLabel(Graphic);
+        etiqueta_rango->setObjectName(QStringLiteral("etiqueta_rango"));
+        etiqueta_rango->setGeometry(QRect(450, 500, 91, 16));
 
         retranslateUi(Graphic);
 
@@ -95,6 +103,8 @@ public:
         label_4->setText(QApplication::translate("Graphic", "Entrop\303\255a: ", 0));
         etiqueta_entropia->setText(QString());
         acumulativo->setText(QApplication::translate("Graphic", "Histograma acumulado", 0));
+        label_5->setText(QApplication::translate("Graphic", "Rango de Valores:", 0));
+        etiqueta_rango->setText(QString());
     } // retranslateUi
 
 };

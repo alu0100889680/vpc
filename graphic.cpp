@@ -93,6 +93,33 @@ Graphic::Graphic(QImage img,QImage grey_img, QFileInfo name, int acumu):
     QString entropia_s = QString::number(entropia);
     ui->etiqueta_entropia->setText(entropia_s);
 
+    // Rango de Valores
+
+    int min, max;
+    for (int i=0; i<256;i++){
+        if(color_table_[i]!=0){
+            min=i;
+            break;
+        }
+    }
+    for (int i=255; i>0;i--){
+        if(color_table_[i]!=0){
+            max=i;
+            break;
+        }
+    }
+
+    QString rango = QString::number(min);
+    rango.append(" - ");
+    rango.append(QString::number(max));
+    ui->etiqueta_rango->setText(rango);
+
+
+
+
+
+
+
     ui->plot->addGraph();
     ui->plot->graph(0)->setPen(QPen(Qt::red)); // line color red for second graph
 
@@ -190,7 +217,7 @@ void Graphic::on_histograma_clicked()
 
 void Graphic::on_histograma_ec_clicked()
 {
-    double max = 0;
+
     QVector<double> vout;
     double K = (image_.width()*image_.height())/256;
     for(int i = 0; i < 256; i++){

@@ -134,6 +134,7 @@
     <addaction name="actionEscala_de_grises"/>
     <addaction name="actionCorrecci_on_Gamma"/>
     <addaction name="actionDiferencia"/>
+    <addaction name="actionUmbralizar_con_Imagen_Diferencia"/>
     <addaction name="actionRecortar"/>
    </widget>
    <widget class="QMenu" name="menuPrueba">
@@ -267,6 +268,11 @@
   <action name="actionUmbralizar">
    <property name="text">
     <string>Umbralizar</string>
+   </property>
+  </action>
+  <action name="actionUmbralizar_con_Imagen_Diferencia">
+   <property name="text">
+    <string>Umbralizar con Imagen Diferencia</string>
    </property>
   </action>
  </widget>

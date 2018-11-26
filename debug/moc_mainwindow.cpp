@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[22];
-    char stringdata0[575];
+    QByteArrayData data[23];
+    char stringdata0[627];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,14 +43,15 @@ QT_MOC_LITERAL(10, 258, 25), // "on_actionTramos_triggered"
 QT_MOC_LITERAL(11, 284, 36), // "on_actionCambiar_Contraste_tr..."
 QT_MOC_LITERAL(12, 321, 36), // "on_actionCorrecci_on_Gamma_tr..."
 QT_MOC_LITERAL(13, 358, 29), // "on_actionDiferencia_triggered"
-QT_MOC_LITERAL(14, 388, 27), // "on_actionRecortar_triggered"
-QT_MOC_LITERAL(15, 416, 30), // "on_actionCambiar_ByC_triggered"
-QT_MOC_LITERAL(16, 447, 29), // "on_actionUmbralizar_triggered"
-QT_MOC_LITERAL(17, 477, 17), // "Mouse_current_pos"
-QT_MOC_LITERAL(18, 495, 3), // "uno"
-QT_MOC_LITERAL(19, 499, 3), // "dos"
-QT_MOC_LITERAL(20, 503, 35), // "on_actionEscala_de_grises_tri..."
-QT_MOC_LITERAL(21, 539, 35) // "on_actionEcualizar_imagen_tri..."
+QT_MOC_LITERAL(14, 388, 51), // "on_actionUmbralizar_con_Image..."
+QT_MOC_LITERAL(15, 440, 27), // "on_actionRecortar_triggered"
+QT_MOC_LITERAL(16, 468, 30), // "on_actionCambiar_ByC_triggered"
+QT_MOC_LITERAL(17, 499, 29), // "on_actionUmbralizar_triggered"
+QT_MOC_LITERAL(18, 529, 17), // "Mouse_current_pos"
+QT_MOC_LITERAL(19, 547, 3), // "uno"
+QT_MOC_LITERAL(20, 551, 3), // "dos"
+QT_MOC_LITERAL(21, 555, 35), // "on_actionEscala_de_grises_tri..."
+QT_MOC_LITERAL(22, 591, 35) // "on_actionEcualizar_imagen_tri..."
 
     },
     "MainWindow\0on_actionAbrir_triggered\0"
@@ -65,6 +66,7 @@ QT_MOC_LITERAL(21, 539, 35) // "on_actionEcualizar_imagen_tri..."
     "on_actionCambiar_Contraste_triggered\0"
     "on_actionCorrecci_on_Gamma_triggered\0"
     "on_actionDiferencia_triggered\0"
+    "on_actionUmbralizar_con_Imagen_Diferencia_triggered\0"
     "on_actionRecortar_triggered\0"
     "on_actionCambiar_ByC_triggered\0"
     "on_actionUmbralizar_triggered\0"
@@ -80,7 +82,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -88,28 +90,30 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  114,    2, 0x08 /* Private */,
-       3,    0,  115,    2, 0x08 /* Private */,
-       4,    0,  116,    2, 0x08 /* Private */,
-       5,    0,  117,    2, 0x08 /* Private */,
-       6,    0,  118,    2, 0x08 /* Private */,
-       7,    0,  119,    2, 0x08 /* Private */,
-       8,    0,  120,    2, 0x08 /* Private */,
-       9,    0,  121,    2, 0x08 /* Private */,
-      10,    0,  122,    2, 0x08 /* Private */,
-      11,    0,  123,    2, 0x08 /* Private */,
-      12,    0,  124,    2, 0x08 /* Private */,
-      13,    0,  125,    2, 0x08 /* Private */,
-      14,    0,  126,    2, 0x08 /* Private */,
-      15,    0,  127,    2, 0x08 /* Private */,
-      16,    0,  128,    2, 0x08 /* Private */,
-      17,    0,  129,    2, 0x08 /* Private */,
-      18,    0,  130,    2, 0x08 /* Private */,
-      19,    0,  131,    2, 0x08 /* Private */,
-      20,    0,  132,    2, 0x08 /* Private */,
-      21,    0,  133,    2, 0x08 /* Private */,
+       1,    0,  119,    2, 0x08 /* Private */,
+       3,    0,  120,    2, 0x08 /* Private */,
+       4,    0,  121,    2, 0x08 /* Private */,
+       5,    0,  122,    2, 0x08 /* Private */,
+       6,    0,  123,    2, 0x08 /* Private */,
+       7,    0,  124,    2, 0x08 /* Private */,
+       8,    0,  125,    2, 0x08 /* Private */,
+       9,    0,  126,    2, 0x08 /* Private */,
+      10,    0,  127,    2, 0x08 /* Private */,
+      11,    0,  128,    2, 0x08 /* Private */,
+      12,    0,  129,    2, 0x08 /* Private */,
+      13,    0,  130,    2, 0x08 /* Private */,
+      14,    0,  131,    2, 0x08 /* Private */,
+      15,    0,  132,    2, 0x08 /* Private */,
+      16,    0,  133,    2, 0x08 /* Private */,
+      17,    0,  134,    2, 0x08 /* Private */,
+      18,    0,  135,    2, 0x08 /* Private */,
+      19,    0,  136,    2, 0x08 /* Private */,
+      20,    0,  137,    2, 0x08 /* Private */,
+      21,    0,  138,    2, 0x08 /* Private */,
+      22,    0,  139,    2, 0x08 /* Private */,
 
  // slots: parameters
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -152,14 +156,15 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 9: _t->on_actionCambiar_Contraste_triggered(); break;
         case 10: _t->on_actionCorrecci_on_Gamma_triggered(); break;
         case 11: _t->on_actionDiferencia_triggered(); break;
-        case 12: _t->on_actionRecortar_triggered(); break;
-        case 13: _t->on_actionCambiar_ByC_triggered(); break;
-        case 14: _t->on_actionUmbralizar_triggered(); break;
-        case 15: _t->Mouse_current_pos(); break;
-        case 16: _t->uno(); break;
-        case 17: _t->dos(); break;
-        case 18: _t->on_actionEscala_de_grises_triggered(); break;
-        case 19: _t->on_actionEcualizar_imagen_triggered(); break;
+        case 12: _t->on_actionUmbralizar_con_Imagen_Diferencia_triggered(); break;
+        case 13: _t->on_actionRecortar_triggered(); break;
+        case 14: _t->on_actionCambiar_ByC_triggered(); break;
+        case 15: _t->on_actionUmbralizar_triggered(); break;
+        case 16: _t->Mouse_current_pos(); break;
+        case 17: _t->uno(); break;
+        case 18: _t->dos(); break;
+        case 19: _t->on_actionEscala_de_grises_triggered(); break;
+        case 20: _t->on_actionEcualizar_imagen_triggered(); break;
         default: ;
         }
     }
@@ -191,13 +196,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 21;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 21)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 20;
+        _id -= 21;
     }
     return _id;
 }

@@ -49,6 +49,7 @@ public:
     QAction *actionRecortar;
     QAction *actionCambiar_ByC;
     QAction *actionUmbralizar;
+    QAction *actionUmbralizar_con_Imagen_Diferencia;
     QWidget *centralWidget;
     my_qlabel *cuadroImg;
     QLabel *etiqueta_coordenadas;
@@ -110,6 +111,8 @@ public:
         actionCambiar_ByC->setObjectName(QStringLiteral("actionCambiar_ByC"));
         actionUmbralizar = new QAction(MainWindow);
         actionUmbralizar->setObjectName(QStringLiteral("actionUmbralizar"));
+        actionUmbralizar_con_Imagen_Diferencia = new QAction(MainWindow);
+        actionUmbralizar_con_Imagen_Diferencia->setObjectName(QStringLiteral("actionUmbralizar_con_Imagen_Diferencia"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         cuadroImg = new my_qlabel(centralWidget);
@@ -174,6 +177,7 @@ public:
         menuEditar->addAction(actionEscala_de_grises);
         menuEditar->addAction(actionCorrecci_on_Gamma);
         menuEditar->addAction(actionDiferencia);
+        menuEditar->addAction(actionUmbralizar_con_Imagen_Diferencia);
         menuEditar->addAction(actionRecortar);
 
         retranslateUi(MainWindow);
@@ -205,6 +209,7 @@ public:
         actionRecortar->setText(QApplication::translate("MainWindow", "Recortar", 0));
         actionCambiar_ByC->setText(QApplication::translate("MainWindow", "Cambiar Brillo y Contraste", 0));
         actionUmbralizar->setText(QApplication::translate("MainWindow", "Umbralizar", 0));
+        actionUmbralizar_con_Imagen_Diferencia->setText(QApplication::translate("MainWindow", "Umbralizar con Imagen Diferencia", 0));
         cuadroImg->setText(QString());
         etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0", 0));
         menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", 0));
