@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.6.2
+** Created by: Qt User Interface Compiler version 5.11.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,8 +12,6 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -57,7 +55,6 @@ public:
     QMenu *menuArchivo;
     QMenu *menuAnalizar;
     QMenu *menuEditar;
-    QMenu *menuPrueba;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -130,7 +127,7 @@ public:
         cuadroImg->setMargin(0);
         etiqueta_coordenadas = new QLabel(centralWidget);
         etiqueta_coordenadas->setObjectName(QStringLiteral("etiqueta_coordenadas"));
-        etiqueta_coordenadas->setGeometry(QRect(10, 0, 131, 41));
+        etiqueta_coordenadas->setGeometry(QRect(10, 0, 361, 41));
         etiqueta_coordenadas->setFrameShape(QFrame::Box);
         etiqueta_coordenadas->setFrameShadow(QFrame::Raised);
         etiqueta_coordenadas->setMidLineWidth(0);
@@ -140,15 +137,13 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 407, 21));
+        menuBar->setGeometry(QRect(0, 0, 407, 26));
         menuArchivo = new QMenu(menuBar);
         menuArchivo->setObjectName(QStringLiteral("menuArchivo"));
         menuAnalizar = new QMenu(menuBar);
         menuAnalizar->setObjectName(QStringLiteral("menuAnalizar"));
         menuEditar = new QMenu(menuBar);
         menuEditar->setObjectName(QStringLiteral("menuEditar"));
-        menuPrueba = new QMenu(menuBar);
-        menuPrueba->setObjectName(QStringLiteral("menuPrueba"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -160,7 +155,6 @@ public:
         menuBar->addAction(menuArchivo->menuAction());
         menuBar->addAction(menuAnalizar->menuAction());
         menuBar->addAction(menuEditar->menuAction());
-        menuBar->addAction(menuPrueba->menuAction());
         menuArchivo->addAction(actionAbrir);
         menuArchivo->addAction(actionGuardar);
         menuArchivo->addAction(actionDuplicar);
@@ -187,35 +181,34 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
-        actionAbrir->setText(QApplication::translate("MainWindow", "Abrir", 0));
-        actionGuardar->setText(QApplication::translate("MainWindow", "Guardar", 0));
-        actionHistograma->setText(QApplication::translate("MainWindow", "Histograma", 0));
-        actionDuplicar->setText(QApplication::translate("MainWindow", "Duplicar", 0));
-        actionRango_de_valores->setText(QApplication::translate("MainWindow", "Rango de valores", 0));
-        actionTama_o->setText(QApplication::translate("MainWindow", "Tama\303\261o", 0));
-        actionHistograma_Acumulativo->setText(QApplication::translate("MainWindow", "Histograma Acumulado", 0));
-        actionCojo->setText(QApplication::translate("MainWindow", "cojo", 0));
-        actionHola->setText(QApplication::translate("MainWindow", "hola", 0));
-        actionNUEVO->setText(QApplication::translate("MainWindow", "NUEVO", 0));
-        actionCambiar_Brillo->setText(QApplication::translate("MainWindow", "Cambiar Brillo", 0));
-        actionTramos->setText(QApplication::translate("MainWindow", "Transformaci\303\263n por Tramos", 0));
-        actionEscala_de_grises->setText(QApplication::translate("MainWindow", "Escala de grises", 0));
-        actionE->setText(QApplication::translate("MainWindow", "Ecualizar imagen", 0));
-        actionEcualizar_imagen->setText(QApplication::translate("MainWindow", "Ecualizar imagen", 0));
-        actionCambiar_Contraste->setText(QApplication::translate("MainWindow", "Cambiar Contraste", 0));
-        actionCorrecci_on_Gamma->setText(QApplication::translate("MainWindow", "Correcci\303\263n Gamma", 0));
-        actionDiferencia->setText(QApplication::translate("MainWindow", "Diferencia de Im\303\241genes", 0));
-        actionRecortar->setText(QApplication::translate("MainWindow", "Recortar", 0));
-        actionCambiar_ByC->setText(QApplication::translate("MainWindow", "Cambiar Brillo y Contraste", 0));
-        actionUmbralizar->setText(QApplication::translate("MainWindow", "Umbralizar", 0));
-        actionUmbralizar_con_Imagen_Diferencia->setText(QApplication::translate("MainWindow", "Umbralizar con Imagen Diferencia", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        actionAbrir->setText(QApplication::translate("MainWindow", "Abrir", nullptr));
+        actionGuardar->setText(QApplication::translate("MainWindow", "Guardar", nullptr));
+        actionHistograma->setText(QApplication::translate("MainWindow", "Histograma", nullptr));
+        actionDuplicar->setText(QApplication::translate("MainWindow", "Duplicar", nullptr));
+        actionRango_de_valores->setText(QApplication::translate("MainWindow", "Rango de valores", nullptr));
+        actionTama_o->setText(QApplication::translate("MainWindow", "Tama\303\261o", nullptr));
+        actionHistograma_Acumulativo->setText(QApplication::translate("MainWindow", "Histograma Acumulado", nullptr));
+        actionCojo->setText(QApplication::translate("MainWindow", "cojo", nullptr));
+        actionHola->setText(QApplication::translate("MainWindow", "hola", nullptr));
+        actionNUEVO->setText(QApplication::translate("MainWindow", "NUEVO", nullptr));
+        actionCambiar_Brillo->setText(QApplication::translate("MainWindow", "Cambiar Brillo", nullptr));
+        actionTramos->setText(QApplication::translate("MainWindow", "Transformaci\303\263n por Tramos", nullptr));
+        actionEscala_de_grises->setText(QApplication::translate("MainWindow", "Escala de grises", nullptr));
+        actionE->setText(QApplication::translate("MainWindow", "Ecualizar imagen", nullptr));
+        actionEcualizar_imagen->setText(QApplication::translate("MainWindow", "Ecualizar imagen", nullptr));
+        actionCambiar_Contraste->setText(QApplication::translate("MainWindow", "Cambiar Contraste", nullptr));
+        actionCorrecci_on_Gamma->setText(QApplication::translate("MainWindow", "Correcci\303\263n Gamma", nullptr));
+        actionDiferencia->setText(QApplication::translate("MainWindow", "Diferencia de Im\303\241genes", nullptr));
+        actionRecortar->setText(QApplication::translate("MainWindow", "Recortar", nullptr));
+        actionCambiar_ByC->setText(QApplication::translate("MainWindow", "Cambiar Brillo y Contraste", nullptr));
+        actionUmbralizar->setText(QApplication::translate("MainWindow", "Umbralizar", nullptr));
+        actionUmbralizar_con_Imagen_Diferencia->setText(QApplication::translate("MainWindow", "Umbralizar con Imagen Diferencia", nullptr));
         cuadroImg->setText(QString());
-        etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0", 0));
-        menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", 0));
-        menuAnalizar->setTitle(QApplication::translate("MainWindow", "Analizar", 0));
-        menuEditar->setTitle(QApplication::translate("MainWindow", "Editar", 0));
-        menuPrueba->setTitle(QApplication::translate("MainWindow", "Prueba", 0));
+        etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0   (R,G,B)", nullptr));
+        menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", nullptr));
+        menuAnalizar->setTitle(QApplication::translate("MainWindow", "Analizar", nullptr));
+        menuEditar->setTitle(QApplication::translate("MainWindow", "Editar", nullptr));
     } // retranslateUi
 
 };

@@ -1,25 +1,21 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "ui_graphic.h"
-#include <QtCore/QCoreApplication>
-#include <iostream>
-#include "graphic.h"
-#include <QString>
-#include "my_qlabel.h"
-#include <QMainWindow>
-#include <pthread.h>
-#include <thread>
 
-using namespace std;
+#include "graphic.h"
+#include <QFileDialog>
+#include <QImage>
+#include <QVector>
+#include <QColor>
+#include "qcustomplot.h"
+#include <iostream>
+#include <QVBoxLayout>
+#include <math.h>
+#include <algorithm>    // std::max
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow){
         ui->setupUi(this);
         this->setWindowTitle("Programa VPC");
-        cout <<" hola estas en el constroctor" <<endl;
-
-       connect(ui->cuadroImg, SIGNAL(sendMousePosition(QPoint&)), this, SLOT(showMousePosition(Qpoint&)));
     }
 
 MainWindow::MainWindow(QImage img, QString title):
@@ -30,9 +26,8 @@ MainWindow::MainWindow(QImage img, QString title):
         this->setWindowTitle(name_.fileName());
         this->ui->cuadroImg->setScaledContents(true);
         this->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
+        this->ui->cuadroImg->setGeometry(50,50,img.width(),img.height());
         this->setWindowTitle(title);
-        connect(ui->cuadroImg, SIGNAL(sendMousePosition(QPoint&)), this, SLOT(showMousePosition(Qpoint&)));
-
     };
 
 
@@ -42,7 +37,7 @@ MainWindow::~MainWindow(){
 
 void MainWindow::on_actionAbrir_triggered(){
 
-    QString filename = QFileDialog::getOpenFileName(this, tr("Selecciona una imagen"), "", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
+    QString filename = QFileDialog::getOpenFileName(this, tr("Selecciona una imagen"), "", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif*.tif)"));
     QFileInfo file = filename;
     name_ = filename;
 
@@ -58,9 +53,6 @@ void MainWindow::on_actionAbrir_triggered(){
                     image_ = image_.scaled(image_.width()/2,image_.height()/2);
             else
                 ui->cuadroImg->setGeometry(50,50,image_.width(),image_.height());
-
-
-            cout << "Hola:  " << image_.width()*image_.height() << endl;
 
             if(!image_.allGray()){
                 grey_image_ = image_;
@@ -95,11 +87,11 @@ void MainWindow::on_actionAbrir_triggered(){
             this->setWindowTitle(name_.fileName());
         }
         else{
-            cout << "Error cargando la imagen"  << endl;
+            QMessageBox::information(this,tr("Error"),tr("Error cargando la imagen."));
         }
     }
 
-    connect(ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
+    connect(this->ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
 }
 
 void MainWindow::on_actionGuardar_triggered(){
@@ -120,6 +112,7 @@ void MainWindow::on_actionDuplicar_triggered(){
 
     MainWindow* W = new MainWindow(image_,name_.fileName());
     W->ui->cuadroImg->setGeometry(50,50,image_.width(),image_.height());
+//    connect(W->ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
     W->show();
 }
 
@@ -279,8 +272,8 @@ void MainWindow::on_actionCambiar_Brillo_triggered()
     QImage nueva;
     nueva = image_;
     int var = 0;
-     cout<<"Inserte variación del brillo: ";
-    cin >> var;
+    var = QInputDialog::getInt(this,"Entrada", "Inserte variación del brillo: ");
+
 //        cout<<nueva.pixelColor(25,25).value();
 //               nueva.setPixel(25,25,qRgb(150,150,150));
     for(int i =0;i<nueva.width();i++)
@@ -301,8 +294,8 @@ void MainWindow::on_actionCambiar_Contraste_triggered()
     QImage nueva;
     nueva = image_;
     int var = 0;
-    cout<<"Inserte variación del contraste: ";
-    cin >> var;
+    var = QInputDialog::getInt(this,"Entrada", "Inserte variación del contraste: ");
+
 
 //        cout<<nueva.pixelColor(25,25).value();
 //               nueva.setPixel(25,25,qRgb(150,150,150));
@@ -369,59 +362,53 @@ void MainWindow::on_actionCambiar_ByC_triggered()
     QImage nueva;
     nueva = image_;
     int varC, varB;
-    cout<<"Inserte variación del contraste: ";
-    cin >> varC;
-    cout<<"Inserte variación del brillo: ";
-    cin >> varB;
+    QVector<double> x_,lista_, color_table_, acumulativo_;
+    double contador_ = 0.0;
+
+    varC = QInputDialog::getInt(this,"Entrada", "Inserte variación del contraste: ");
+    varB = QInputDialog::getInt(this,"Entrada", "Inserte variación del brillo: ");
+
+    nueva = nueva.convertToFormat(QImage::Format_RGB888);   // Convertir a RGB de 8 bits
+    uchar *bits = nueva.bits();
+
+    // Lista de todos los colores
+    for (int i = 0; i < (nueva.width() * nueva.height() * 3); i++)
+        lista_.push_back(bits[i]);
 
 
-//        cout<<nueva.pixelColor(25,25).value();
-//               nueva.setPixel(25,25,qRgb(150,150,150));
-QVector<double> x_,lista_, color_table_, acumulativo_;
-double contador_ = 0.0;
+    // Lista de pixeles / color
+    for (int i = 0; i < 256; i++){
+        int cont = lista_.count(i);
+        x_.push_back(i);
+        color_table_.push_back(cont);
+        contador_ += cont;
+    }
 
+    acumulativo_.push_back(color_table_[0]);
+    for (int i =1; i<color_table_.size(); i++){
+        acumulativo_.push_back(color_table_[i]+acumulativo_[i-1]);
+    }
 
-        nueva = nueva.convertToFormat(QImage::Format_RGB888);   // Convertir a RGB de 8 bits
-        uchar *bits = nueva.bits();
+    double sumatorio = 0.0, sumatorio2= 0.0,  media = 0.0, desvt = 0.0;
 
-        // Lista de todos los colores
-        for (int i = 0; i < (nueva.width() * nueva.height() * 3); i++)
-            lista_.push_back(bits[i]);
+    // MEDIA / BRILLO
+    for (int i = 0; i < 256; i++){
+            sumatorio = sumatorio + color_table_[i]*i;
+    }
+    media = sumatorio / contador_;
 
+    // DT / CONTRASTE
+    for (int i = 0; i < 256; i++){
+            double potencia = pow(i-media, 2);
+            sumatorio2 = sumatorio2 + round(potencia*color_table_[i]);
+    }
+    desvt = sqrt(sumatorio2/contador_);
 
-        // Lista de pixeles / color
-        for (int i = 0; i < 256; i++){
-            int cont = lista_.count(i);
-            x_.push_back(i);
-            color_table_.push_back(cont);
-            contador_ += cont;
-        }
+    cout<<media<<" "<<desvt<<endl;
+    double A = (desvt + varC)/ desvt;
+    double B = media + varB - A * media;
 
-        acumulativo_.push_back(color_table_[0]);
-        for (int i =1; i<color_table_.size(); i++){
-            acumulativo_.push_back(color_table_[i]+acumulativo_[i-1]);
-        }
-
-        double sumatorio = 0.0, sumatorio2= 0.0,  media = 0.0, desvt = 0.0;
-
-        // MEDIA / BRILLO
-        for (int i = 0; i < 256; i++){
-                sumatorio = sumatorio + color_table_[i]*i;
-        }
-        media = sumatorio / contador_;
-
-        // DT / CONTRASTE
-        for (int i = 0; i < 256; i++){
-                double potencia = pow(i-media, 2);
-                sumatorio2 = sumatorio2 + round(potencia*color_table_[i]);
-        }
-        desvt = sqrt(sumatorio2/contador_);
-
-cout<<media<<" "<<desvt<<endl;
-double A = (desvt + varC)/ desvt;
-double B = media + varB - A * media;
-
-cout<<A<<" "<<B<<endl;
+    cout<<A<<" "<<B<<endl;
 
     for(int i =0;i<nueva.width();i++)
        for(int j=0; j<nueva.height();j++){
@@ -433,7 +420,6 @@ cout<<A<<" "<<B<<endl;
 
     MainWindow* W = new MainWindow(nueva,name_.fileName());
     W->show();
-
 }
 
 void MainWindow::on_actionCorrecci_on_Gamma_triggered()
@@ -441,8 +427,7 @@ void MainWindow::on_actionCorrecci_on_Gamma_triggered()
     QImage nueva;
     nueva = image_;
     double var = 0.0;
-     cout<<"Inserte función Gamma: ";
-    cin >> var;
+    var = QInputDialog::getInt(this,"Entrada", "Inserte función Gamma: ");
 
     for(int i =0;i<nueva.width();i++)
        for(int j=0; j<nueva.height();j++){
@@ -462,55 +447,73 @@ void MainWindow::on_actionCorrecci_on_Gamma_triggered()
 
 }
 
-
 void MainWindow::on_actionTramos_triggered()
 {
-    cout<<"Numero de tramos: ";
-    int n;
-    cin>>n;
-    double tramo[n][2];
-    int fin[n];
-    cout<<"AX + B"<<endl;
-    for (int i=0;i<n;i++){
-        cout<<endl<<i+1<<"º A: ";
-        cin>>tramo[i][0];
-        cout<<endl<<"B: ";
-        cin>>tramo[i][1];
-        cout<<endl<<"Fin de tramo: ";
-        cin>>fin[i];
-    }
+    int n = QInputDialog::getInt(this,"Transformación por tramos", "Número de tramos: ");
+
+    struct Tramo{
+        double x1;
+        double y1;
+        double x2;
+        double y2;
+    };
+
     QImage nueva;
     nueva = image_;
 
+    Tramo tramo[n];
+    Tramo tram;
+    tramo[0].x1 = QInputDialog::getInt(this, "Primer Punto", "Inserte la posición x del 1º punto: ");
+    tramo[0].y1 = QInputDialog::getInt(this, "Primer Punto", "Inserte la posición y del 1º punto: ");
+
+    for (int i=0;i<n;i++){
+      if(i!=0){
+          tramo[i].x1 = tramo[i-1].x2;
+          tramo[i].y1 = tramo[i-1].y2;
+      }
+          tramo[i].x2 = QInputDialog::getInt(this, "Fin del tramo", "Posición x del punto final del tramo: ");
+          tramo[i].y2 = QInputDialog::getInt(this, "Fin del tramo", "Posición y del punto final del tramo: ");
+    }
+
+    QVector<int> vout(256);
+    int k = 0;
+    for(int i = 0; i < 256; i++){
+
+        if(i<tramo[0].x1){
+            vout[i] = i;
+        }
+        else if(i > tramo[n-1].x2)
+            vout[i] = i;
+        else{
+            while(i > tramo[k].x2){
+                k++;
+            }
+
+            double A = (tramo[k].y2 - tramo[k].y1)/(tramo[k].x2-tramo[k].x1);
+            double B = tramo[k].y1 - (A*tramo[k].x1);
+            vout[i] = (A*i + B);
+        }
+    }
 
     for(int i =0;i<nueva.width();i++){
         for(int j=0; j<nueva.height();j++){
-            int color= nueva.pixelColor(i,j).value();
-            for(int k=0; k<n;k++){
-                if (color<fin[k]){
-                    color = round(tramo[k][0] * color + tramo[k][1]);
-                    break;
-                }
-            }
+            int color= vout[nueva.pixelColor(i,j).value()];
             nueva.setPixel(i,j,qRgb(color,color,color));
         }
     }
 
- MainWindow* W = new MainWindow(nueva,name_.fileName());
-  W->show();
+    MainWindow* W = new MainWindow(nueva,name_.fileName());
+    W->show();
+    connect(W->ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
 }
 
 void MainWindow::on_actionUmbralizar_triggered()
 {
-    cout<<"Numero de tramos: ";
-    int n;
-    cin>>n;
+    int n = QInputDialog::getInt(this,"Umbralizar", "Número de tramos: ");
     int tramo[n][2];
     for (int i=0;i<n;i++){
-        cout<<endl<<i+1<<"º X: ";
-        cin>>tramo[i][0];
-        cout<<endl<<"Y: ";
-        cin>>tramo[i][1];
+        tramo[i][0] = QInputDialog::getInt(this,"X", "Valor de X: ");
+        tramo[i][1] = QInputDialog::getInt(this,"Y", "Valor de Y: ");
     }
     QImage nueva;
     nueva = image_;
@@ -564,7 +567,7 @@ void MainWindow::on_actionDiferencia_triggered()
                  W->show();
 
             }else{
-                cout<<"Las imagenes deben ser del mismo tamaño para poder hacerles la diferencia."<<endl;
+                QMessageBox::information(this,tr("Error"),tr("Las imágenes deben ser del mismo tamaño para poder hacerles la diferencia."));
             }
         }
         }
@@ -590,10 +593,9 @@ void MainWindow::on_actionUmbralizar_con_Imagen_Diferencia_triggered(){
         if(valid) {
             if(image_.width()==img_diferencia.width() && image_.height()==img_diferencia.height()){
 
-                int umbral;
-                cout<<endl<<"Introduzca el umbral: ";
-                cin>>umbral;
-                if(umbral>0 &&umbral<256){
+                int umbral = QInputDialog::getInt(this,"Umbralizar diferencia", "Introduce el umbral: ");
+
+                if(umbral>0 && umbral<256){
 
                     QImage umbralizada = image_;
                     for(int i =0;i<image_.width();i++){
@@ -610,29 +612,22 @@ void MainWindow::on_actionUmbralizar_con_Imagen_Diferencia_triggered(){
 
             }else{
                 cout<<"Las imagenes deben ser del mismo tamaño para poder hacerles el umbralizado con la diferencia."<<endl;
+
             }
         }
-        }
-        else{
-            cout << "Error cargando la imagen"  << endl;
-        }
-
-
-
-
-
-
+    }
+    else{
+        cout << "Error cargando la imagen"  << endl;
+    }
 }
-
-
-
-
-
-
 
 void MainWindow::Mouse_current_pos()
 {
-    ui->etiqueta_coordenadas->setText(QString("X = %1, Y = %2").arg(ui->cuadroImg->x).arg(ui->cuadroImg->y));
+    QColor color = image_.pixel(this->ui->cuadroImg->x,this->ui->cuadroImg->y);
+    QRgb red = color.red();
+    QRgb green = color.green();
+    QRgb blue = color.blue();
+    this->ui->etiqueta_coordenadas->setText(QString("X = %1, Y = %2  (%3,%4,%5)").arg(this->ui->cuadroImg->x).arg(this->ui->cuadroImg->y).arg(red).arg(green).arg(blue));
 }
 
 void MainWindow::on_actionEscala_de_grises_triggered()
@@ -744,14 +739,10 @@ void MainWindow::on_actionRecortar_triggered()
 {
     int x1, y1, x2, y2;
 
-    cout<<"Introduzca valores esquina superior izquierda."<<endl<<"X: ";
-    cin>>x1;
-    cout<<endl<<"Y: ";
-    cin>>y1;
-    cout<<endl<<"Introduzca valores esquina inferior derecha."<<endl<<"X: ";
-    cin>>x2;
-    cout<<endl<<"Y: ";
-    cin>>y2;
+    x1 = QInputDialog::getInt(this,"Introduzca valores esquina superior izquierda", "X: ");
+    y1 = QInputDialog::getInt(this,"Introduzca valores esquina superior izquierda", "Y: ");
+    x2 = QInputDialog::getInt(this,"Introduzca valores esquina inferior derecha", "X: ");
+    y2 = QInputDialog::getInt(this,"Introduzca valores esquina inferior derecha", "Y: ");
 
     QImage img_rec{x2-x1,y2-y1, QImage::Format_RGB888};
 

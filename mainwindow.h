@@ -1,19 +1,19 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include "graphic.h"
-#include <QFileDialog>
-#include <QImage>
-#include <QVector>
-#include <QColor>
-#include "qcustomplot.h"
+
+#include "ui_mainwindow.h"
+#include "ui_graphic.h"
+#include <QtCore/QCoreApplication>
 #include <iostream>
-#include <QVBoxLayout>
-#include <math.h>
-#include <algorithm>    // std::max
-
-
+#include "graphic.h"
+#include <QString>
+#include "my_qlabel.h"
+#include <QMainWindow>
+#include <pthread.h>
+#include <thread>
+#include <QInputDialog>
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -59,8 +59,6 @@ private slots:
 
 
     void on_actionEscala_de_grises_triggered();
-
-
     void on_actionEcualizar_imagen_triggered();
 
 private:
@@ -69,8 +67,6 @@ private:
     QFileInfo name_;
     QVector<QVector<QColor> > vector_;
     QVector<double> acumulativo_, histograma_, lista_; //monocolor -> red = blue = green
-    // Añadir atributo bool monocromo o no
-
     Graphic *grafico;
     QVBoxLayout *mLayout;
     QCustomPlot *mPlot;
