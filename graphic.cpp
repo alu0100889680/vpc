@@ -43,8 +43,9 @@ Graphic::Graphic(QImage img,QImage grey_img, QFileInfo name, int acumu):
     uchar *bits = img.bits();
 
     // Lista de todos los colores
-    for (int i = 0; i < (img.width() * img.height() * 3); i++)
-        lista_.push_back(bits[i]);
+    for (int i = 0; i < image_.width(); i++)
+        for (int j = 0; j < image_.height(); j++)
+            lista_.push_back(img.pixelColor(i,j).value());
 
     for(int i = 0; i < 256; i++){
         vin_.push_back(i);
@@ -87,11 +88,13 @@ Graphic::Graphic(QImage img,QImage grey_img, QFileInfo name, int acumu):
     double size = image_.width()*image_.height();
     for (int i = 0; i < 256; i++){
             double pi = color_table_[i]/size;
-            sumatorio3 = sumatorio3 + (pi*log2(pi));
+            if(pi!=0.0)
+                sumatorio3 = sumatorio3 + (pi*log2(pi));
     }
     entropia = -sumatorio3;
     QString entropia_s = QString::number(entropia);
     ui->etiqueta_entropia->setText(entropia_s);
+    cout<<endl<<"entropia= "<<entropia<<endl;
 
     // Rango de Valores
 

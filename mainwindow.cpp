@@ -28,6 +28,8 @@ MainWindow::MainWindow(QImage img, QString title):
         this->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
         this->ui->cuadroImg->setGeometry(50,50,img.width(),img.height());
         this->setWindowTitle(title);
+        this->setGeometry(50,50,image_.width()+100,image_.height()+120);
+        connect(this->ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
     };
 
 
@@ -67,10 +69,11 @@ void MainWindow::on_actionAbrir_triggered(){
                 grey_image_ = image_;
 
             QImage img = image_.convertToFormat(QImage::Format_RGB888);   // Convertir a RGB de 8 bits
-            uchar *bits = img.bits();
+           // uchar *bits = img.bits();
 
-            for (int i = 0; i < (image_.width() * image_.height() * 3); i++)
-                lista_.push_back(bits[i]);
+            for (int i = 0; i < image_.width(); i++)
+                for (int j = 0; j < image_.height(); j++)
+                    lista_.push_back(image_.pixelColor(i,j).value());
 
             for (int i = 0; i < 256; i++){
                 int cont = lista_.count(i);
@@ -85,6 +88,7 @@ void MainWindow::on_actionAbrir_triggered(){
             ui->cuadroImg->setGeometry(50,50,image_.width(),image_.height());
 
             this->setWindowTitle(name_.fileName());
+            this->setGeometry(50,50,image_.width()+100,image_.height()+120);
         }
         else{
             QMessageBox::information(this,tr("Error"),tr("Error cargando la imagen."));
@@ -272,20 +276,22 @@ void MainWindow::on_actionCambiar_Brillo_triggered()
     QImage nueva;
     nueva = image_;
     int var = 0;
-    var = QInputDialog::getInt(this,"Entrada", "Inserte variación del brillo: ");
+    var = QInputDialog::getInt(this,"Brillo", "Inserte variación del brillo: ");
+    if(var!=0){
 
 //        cout<<nueva.pixelColor(25,25).value();
 //               nueva.setPixel(25,25,qRgb(150,150,150));
-    for(int i =0;i<nueva.width();i++)
-       for(int j=0; j<nueva.height();j++){
-           int color= nueva.pixelColor(i,j).value() + var;
-           if (color>255) color = 255;
-           if (color<0) color = 0;
-            nueva.setPixel(i,j,qRgb(color,color,color));
-       }
+        for(int i =0;i<nueva.width();i++)
+           for(int j=0; j<nueva.height();j++){
+               int color= nueva.pixelColor(i,j).value() + var;
+               if (color>255) color = 255;
+               if (color<0) color = 0;
+                nueva.setPixel(i,j,qRgb(color,color,color));
+           }
 
-    MainWindow* W = new MainWindow(nueva,name_.fileName());
-    W->show();
+        MainWindow* W = new MainWindow(nueva,name_.fileName());
+        W->show();
+    }
 
 }
 
@@ -294,14 +300,80 @@ void MainWindow::on_actionCambiar_Contraste_triggered()
     QImage nueva;
     nueva = image_;
     int var = 0;
-    var = QInputDialog::getInt(this,"Entrada", "Inserte variación del contraste: ");
+    var = QInputDialog::getInt(this,"Contraste", "Inserte variación del contraste: ");
+    if(var!=0){
+
+    //        cout<<nueva.pixelColor(25,25).value();
+    //               nueva.setPixel(25,25,qRgb(150,150,150));
+    QVector<double> x_,lista_, color_table_, acumulativo_;
+    double contador_ = 0.0;
 
 
-//        cout<<nueva.pixelColor(25,25).value();
-//               nueva.setPixel(25,25,qRgb(150,150,150));
-QVector<double> x_,lista_, color_table_, acumulativo_;
-double contador_ = 0.0;
+            nueva = nueva.convertToFormat(QImage::Format_RGB888);   // Convertir a RGB de 8 bits
+            uchar *bits = nueva.bits();
 
+            // Lista de todos los colores
+            for (int i = 0; i < (nueva.width() * nueva.height() * 3); i++)
+                lista_.push_back(bits[i]);
+
+
+            // Lista de pixeles / color
+            for (int i = 0; i < 256; i++){
+                int cont = lista_.count(i);
+                x_.push_back(i);
+                color_table_.push_back(cont);
+                contador_ += cont;
+            }
+
+            acumulativo_.push_back(color_table_[0]);
+            for (int i =1; i<color_table_.size(); i++){
+                acumulativo_.push_back(color_table_[i]+acumulativo_[i-1]);
+            }
+
+            double sumatorio = 0.0, sumatorio2= 0.0,  media = 0.0, desvt = 0.0;
+
+            // MEDIA / BRILLO
+            for (int i = 0; i < 256; i++){
+                    sumatorio = sumatorio + color_table_[i]*i;
+            }
+            media = sumatorio / contador_;
+
+            // DT / CONTRASTE
+            for (int i = 0; i < 256; i++){
+                    double potencia = pow(i-media, 2);
+                    sumatorio2 = sumatorio2 + round(potencia*color_table_[i]);
+            }
+            desvt = sqrt(sumatorio2/contador_);
+
+    cout<<media<<" "<<desvt<<endl;
+    double A = (desvt + var)/ desvt;
+    double B = media - A * media;
+
+    cout<<A<<" "<<B<<endl;
+
+        for(int i =0;i<nueva.width();i++)
+           for(int j=0; j<nueva.height();j++){
+               int color= A * nueva.pixelColor(i,j).value() + B;
+               if (color>255) color = 255;
+               if (color<0) color = 0;
+               nueva.setPixel(i,j,qRgb(color,color,color));
+           }
+
+        MainWindow* W = new MainWindow(nueva,name_.fileName());
+        W->show();
+    }
+}
+void MainWindow::on_actionCambiar_ByC_triggered()
+{
+    QImage nueva;
+    nueva = image_;
+    int varC, varB;
+    QVector<double> x_,lista_, color_table_, acumulativo_;
+    double contador_ = 0.0;
+
+    varC = QInputDialog::getInt(this,"Brillo", "Inserte variación del contraste: ");
+    varB = QInputDialog::getInt(this,"Contraste", "Inserte variación del brillo: ");
+    if(varC!=0 || varB !=0){
 
         nueva = nueva.convertToFormat(QImage::Format_RGB888);   // Convertir a RGB de 8 bits
         uchar *bits = nueva.bits();
@@ -339,87 +411,23 @@ double contador_ = 0.0;
         }
         desvt = sqrt(sumatorio2/contador_);
 
-cout<<media<<" "<<desvt<<endl;
-double A = (desvt + var)/ desvt;
-double B = media - A * media;
+        cout<<media<<" "<<desvt<<endl;
+        double A = (desvt + varC)/ desvt;
+        double B = media + varB - A * media;
 
-cout<<A<<" "<<B<<endl;
+        cout<<A<<" "<<B<<endl;
 
-    for(int i =0;i<nueva.width();i++)
-       for(int j=0; j<nueva.height();j++){
-           int color= A * nueva.pixelColor(i,j).value() + B;
-           if (color>255) color = 255;
-           if (color<0) color = 0;
-           nueva.setPixel(i,j,qRgb(color,color,color));
-       }
+        for(int i =0;i<nueva.width();i++)
+           for(int j=0; j<nueva.height();j++){
+               int color= A * nueva.pixelColor(i,j).value() + B;
+               if (color>255) color = 255;
+               if (color<0) color = 0;
+               nueva.setPixel(i,j,qRgb(color,color,color));
+           }
 
-    MainWindow* W = new MainWindow(nueva,name_.fileName());
-    W->show();
-
-}
-void MainWindow::on_actionCambiar_ByC_triggered()
-{
-    QImage nueva;
-    nueva = image_;
-    int varC, varB;
-    QVector<double> x_,lista_, color_table_, acumulativo_;
-    double contador_ = 0.0;
-
-    varC = QInputDialog::getInt(this,"Entrada", "Inserte variación del contraste: ");
-    varB = QInputDialog::getInt(this,"Entrada", "Inserte variación del brillo: ");
-
-    nueva = nueva.convertToFormat(QImage::Format_RGB888);   // Convertir a RGB de 8 bits
-    uchar *bits = nueva.bits();
-
-    // Lista de todos los colores
-    for (int i = 0; i < (nueva.width() * nueva.height() * 3); i++)
-        lista_.push_back(bits[i]);
-
-
-    // Lista de pixeles / color
-    for (int i = 0; i < 256; i++){
-        int cont = lista_.count(i);
-        x_.push_back(i);
-        color_table_.push_back(cont);
-        contador_ += cont;
+        MainWindow* W = new MainWindow(nueva,name_.fileName());
+        W->show();
     }
-
-    acumulativo_.push_back(color_table_[0]);
-    for (int i =1; i<color_table_.size(); i++){
-        acumulativo_.push_back(color_table_[i]+acumulativo_[i-1]);
-    }
-
-    double sumatorio = 0.0, sumatorio2= 0.0,  media = 0.0, desvt = 0.0;
-
-    // MEDIA / BRILLO
-    for (int i = 0; i < 256; i++){
-            sumatorio = sumatorio + color_table_[i]*i;
-    }
-    media = sumatorio / contador_;
-
-    // DT / CONTRASTE
-    for (int i = 0; i < 256; i++){
-            double potencia = pow(i-media, 2);
-            sumatorio2 = sumatorio2 + round(potencia*color_table_[i]);
-    }
-    desvt = sqrt(sumatorio2/contador_);
-
-    cout<<media<<" "<<desvt<<endl;
-    double A = (desvt + varC)/ desvt;
-    double B = media + varB - A * media;
-
-    cout<<A<<" "<<B<<endl;
-
-    for(int i =0;i<nueva.width();i++)
-       for(int j=0; j<nueva.height();j++){
-           int color= A * nueva.pixelColor(i,j).value() + B;
-           if (color>255) color = 255;
-           if (color<0) color = 0;
-           nueva.setPixel(i,j,qRgb(color,color,color));
-       }
-
-    MainWindow* W = new MainWindow(nueva,name_.fileName());
-    W->show();
 }
 
 void MainWindow::on_actionCorrecci_on_Gamma_triggered()
@@ -427,24 +435,22 @@ void MainWindow::on_actionCorrecci_on_Gamma_triggered()
     QImage nueva;
     nueva = image_;
     double var = 0.0;
-    var = QInputDialog::getInt(this,"Entrada", "Inserte función Gamma: ");
+    var = QInputDialog::getDouble(this,"Gamma", "Inserte función Gamma: ");
+    if(var!=0){
+        for(int i =0;i<nueva.width();i++)
+           for(int j=0; j<nueva.height();j++){
+               double A= nueva.pixelColor(i,j).value();
+               A = A/255;
+               double B = pow(A,var);//cout<<"A= "<<A<<endl<<"B= "<<B<<endl;
+               int color = round(B*255);
+               if (color>255) color = 255;
+               if (color<0) color = 0;
+                nueva.setPixel(i,j,qRgb(color,color,color));
+           }
 
-    for(int i =0;i<nueva.width();i++)
-       for(int j=0; j<nueva.height();j++){
-           double A= nueva.pixelColor(i,j).value();
-           A = A/255;
-           double B = pow(A,var);//cout<<"A= "<<A<<endl<<"B= "<<B<<endl;
-           int color = round(B*255);
-           if (color>255) color = 255;
-           if (color<0) color = 0;
-            nueva.setPixel(i,j,qRgb(color,color,color));
-       }
-
-    MainWindow* W = new MainWindow(nueva,name_.fileName());
-    W->show();
-
-
-
+        MainWindow* W = new MainWindow(nueva,name_.fileName());
+        W->show();
+    }
 }
 
 void MainWindow::on_actionTramos_triggered()
@@ -471,8 +477,16 @@ void MainWindow::on_actionTramos_triggered()
           tramo[i].x1 = tramo[i-1].x2;
           tramo[i].y1 = tramo[i-1].y2;
       }
-          tramo[i].x2 = QInputDialog::getInt(this, "Fin del tramo", "Posición x del punto final del tramo: ");
-          tramo[i].y2 = QInputDialog::getInt(this, "Fin del tramo", "Posición y del punto final del tramo: ");
+
+      QString tramo_s("Fin del tramo ");
+      tramo_s.append(QString::number(i+1));
+      QString puntoX_s("Posición x del punto final del tramo ");
+      puntoX_s.append(QString::number(i+1));
+      QString puntoY_s("Posición y del punto final del tramo ");
+      puntoY_s.append(QString::number(i+1));
+
+      tramo[i].x2 = QInputDialog::getInt(this, tramo_s, puntoX_s);
+      tramo[i].y2 = QInputDialog::getInt(this, tramo_s, puntoY_s);
     }
 
     QVector<int> vout(256);
@@ -504,7 +518,7 @@ void MainWindow::on_actionTramos_triggered()
 
     MainWindow* W = new MainWindow(nueva,name_.fileName());
     W->show();
-    connect(W->ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
+    //connect(W->ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
 }
 
 void MainWindow::on_actionUmbralizar_triggered()
