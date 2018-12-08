@@ -220,12 +220,7 @@ void MainWindow::dos(){
     grafico.exec();
 
 }
-void MainWindow::on_actionHistograma_Acumulado_triggered()
-{
-    Graphic grafico(image_, grey_image_, name_.fileName(), 1);
-    grafico.setModal(true);
-    grafico.exec();
-}
+
 
 void MainWindow::on_actionRango_de_valores_triggered()
 {
@@ -363,6 +358,7 @@ void MainWindow::on_actionCambiar_Contraste_triggered()
         W->show();
     }
 }
+
 void MainWindow::on_actionCambiar_ByC_triggered()
 {
     QImage nueva;
@@ -611,7 +607,7 @@ void MainWindow::on_actionUmbralizar_con_Imagen_Diferencia_triggered(){
 
                 if(umbral>0 && umbral<256){
 
-                    QImage umbralizada = image_;
+                    QImage umbralizada = image_.convertToFormat(QImage::Format_RGB888);
                     for(int i =0;i<image_.width();i++){
                         for(int j=0; j<image_.height();j++){
                             if(img_diferencia.pixelColor(i,j).value() >= umbral)
@@ -828,6 +824,7 @@ void MainWindow::on_action90_triggered(){
     MainWindow* W = new MainWindow(nueva, name_.fileName());
     W->show();
 }
+
 void MainWindow::on_action180_triggered(){
 
     QImage nueva{image_.width(),image_.height(), QImage::Format_RGB888};
@@ -859,3 +856,86 @@ void MainWindow::on_action270_triggered(){
     W->show();
 }
 
+void MainWindow::on_actionEscalado_IVMP_triggered(){
+
+    QString tamano_s("Tamaño de la Imagen: ");
+    tamano_s.append(QString::number(image_.width()));
+    tamano_s.append(" x ");
+    tamano_s.append(QString::number(image_.height()));
+    tamano_s.append("\n\nIntroduzca el nuevo alto de la imagen (%): ");
+
+    double nueva_x = QInputDialog::getDouble(this, "Nuevo alto", tamano_s)/100;
+
+    tamano_s = "Tamaño de la Imagen: ";
+    tamano_s.append(QString::number(image_.width()));
+    tamano_s.append(" x ");
+    tamano_s.append(QString::number(image_.height()));
+    tamano_s.append("\n\nIntroduzca el nuevo ancho de la imagen (%): ");
+
+    double nueva_y = QInputDialog::getDouble(this, "Nuevo ancho", tamano_s)/100;
+
+    int N_x = (int) trunc(nueva_x*image_.width());
+    int N_y = (int) trunc(nueva_y*image_.height());
+
+    QImage nueva{N_x,N_y, QImage::Format_RGB888};
+
+    for(int i=0; i<N_x; i++)
+        for(int j=0; j<N_y; j++){
+            int x = (int) round(i / nueva_x);
+            int y = (int) round(j / nueva_y);
+            int color = image_.pixelColor(x,y).value();
+            nueva.setPixel(i,j, qRgb(color,color,color));
+
+        }
+
+
+    MainWindow* W = new MainWindow(nueva, name_.fileName());
+    W->show();
+
+}
+
+void MainWindow::on_actionEscalado_Bilineal_triggered(){
+
+    QString tamano_s("Tamaño de la Imagen: ");
+    tamano_s.append(QString::number(image_.width()));
+    tamano_s.append(" x ");
+    tamano_s.append(QString::number(image_.height()));
+    tamano_s.append("\n\nIntroduzca el nuevo alto de la imagen (%): ");
+
+    double nueva_x = QInputDialog::getDouble(this, "Nuevo alto", tamano_s)/100;
+
+    tamano_s = "Tamaño de la Imagen: ";
+    tamano_s.append(QString::number(image_.width()));
+    tamano_s.append(" x ");
+    tamano_s.append(QString::number(image_.height()));
+    tamano_s.append("\n\nIntroduzca el nuevo ancho de la imagen (%): ");
+
+    double nueva_y = QInputDialog::getDouble(this, "Nuevo ancho", tamano_s)/100;
+
+    int N_x = (int) trunc(nueva_x*image_.width());
+    int N_y = (int) trunc(nueva_y*image_.height());
+
+    QImage nueva{N_x,N_y, QImage::Format_RGB888};
+
+    for(int i=0; i<N_x-1; i++)
+        for(int j=0; j<N_y-1; j++){
+
+            double x = i / nueva_x;
+            double y = j / nueva_y;
+            int X = (int) trunc(x);
+            int Y = (int) trunc(y);
+
+            double p = x - X;
+            double q = y - Y;
+
+
+            int color = image_.pixelColor(X,Y).value() + (image_.pixelColor(X+1,Y).value() - image_.pixelColor(X,Y).value())*p + (image_.pixelColor(X,Y+1).value() - image_.pixelColor(X,Y).value())*q + (image_.pixelColor(X+1,Y+1).value() + image_.pixelColor(X,Y).value() - image_.pixelColor(X,Y+1).value() - image_.pixelColor(X+1,Y).value())*p*q;
+            nueva.setPixel(i,j, qRgb(color,color,color));
+
+        }
+
+
+    MainWindow* W = new MainWindow(nueva, name_.fileName());
+    W->show();
+
+}

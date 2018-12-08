@@ -38,7 +38,7 @@ private slots:
     void on_actionGuardar_triggered();
     void on_actionDuplicar_triggered();
     void on_actionHistograma_triggered();
-    void on_actionHistograma_Acumulado_triggered();
+
     void on_actionRango_de_valores_triggered();
     void on_actionTama_o_triggered();
     void on_actionCambiar_Brillo_triggered();
@@ -56,6 +56,8 @@ private slots:
     void on_action90_triggered();
     void on_action180_triggered();
     void on_action270_triggered();
+    void on_actionEscalado_IVMP_triggered();
+    void on_actionEscalado_Bilineal_triggered();
 
 
     void Mouse_current_pos();

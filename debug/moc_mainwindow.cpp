@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[23];
-    char stringdata0[627];
+    QByteArrayData data[31];
+    char stringdata0[868];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -47,11 +47,19 @@ QT_MOC_LITERAL(14, 388, 51), // "on_actionUmbralizar_con_Image..."
 QT_MOC_LITERAL(15, 440, 27), // "on_actionRecortar_triggered"
 QT_MOC_LITERAL(16, 468, 30), // "on_actionCambiar_ByC_triggered"
 QT_MOC_LITERAL(17, 499, 29), // "on_actionUmbralizar_triggered"
-QT_MOC_LITERAL(18, 529, 17), // "Mouse_current_pos"
-QT_MOC_LITERAL(19, 547, 3), // "uno"
-QT_MOC_LITERAL(20, 551, 3), // "dos"
-QT_MOC_LITERAL(21, 555, 35), // "on_actionEscala_de_grises_tri..."
-QT_MOC_LITERAL(22, 591, 35) // "on_actionEcualizar_imagen_tri..."
+QT_MOC_LITERAL(18, 529, 34), // "on_actionEspejo_Vertical_trig..."
+QT_MOC_LITERAL(19, 564, 36), // "on_actionEspejo_Horizontal_tr..."
+QT_MOC_LITERAL(20, 601, 30), // "on_actionTranspuesta_triggered"
+QT_MOC_LITERAL(21, 632, 21), // "on_action90_triggered"
+QT_MOC_LITERAL(22, 654, 22), // "on_action180_triggered"
+QT_MOC_LITERAL(23, 677, 22), // "on_action270_triggered"
+QT_MOC_LITERAL(24, 700, 32), // "on_actionEscalado_IVMP_triggered"
+QT_MOC_LITERAL(25, 733, 36), // "on_actionEscalado_Bilineal_tr..."
+QT_MOC_LITERAL(26, 770, 17), // "Mouse_current_pos"
+QT_MOC_LITERAL(27, 788, 3), // "uno"
+QT_MOC_LITERAL(28, 792, 3), // "dos"
+QT_MOC_LITERAL(29, 796, 35), // "on_actionEscala_de_grises_tri..."
+QT_MOC_LITERAL(30, 832, 35) // "on_actionEcualizar_imagen_tri..."
 
     },
     "MainWindow\0on_actionAbrir_triggered\0"
@@ -70,6 +78,13 @@ QT_MOC_LITERAL(22, 591, 35) // "on_actionEcualizar_imagen_tri..."
     "on_actionRecortar_triggered\0"
     "on_actionCambiar_ByC_triggered\0"
     "on_actionUmbralizar_triggered\0"
+    "on_actionEspejo_Vertical_triggered\0"
+    "on_actionEspejo_Horizontal_triggered\0"
+    "on_actionTranspuesta_triggered\0"
+    "on_action90_triggered\0on_action180_triggered\0"
+    "on_action270_triggered\0"
+    "on_actionEscalado_IVMP_triggered\0"
+    "on_actionEscalado_Bilineal_triggered\0"
     "Mouse_current_pos\0uno\0dos\0"
     "on_actionEscala_de_grises_triggered\0"
     "on_actionEcualizar_imagen_triggered"
@@ -82,7 +97,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      21,   14, // methods
+      29,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -90,29 +105,45 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  119,    2, 0x08 /* Private */,
-       3,    0,  120,    2, 0x08 /* Private */,
-       4,    0,  121,    2, 0x08 /* Private */,
-       5,    0,  122,    2, 0x08 /* Private */,
-       6,    0,  123,    2, 0x08 /* Private */,
-       7,    0,  124,    2, 0x08 /* Private */,
-       8,    0,  125,    2, 0x08 /* Private */,
-       9,    0,  126,    2, 0x08 /* Private */,
-      10,    0,  127,    2, 0x08 /* Private */,
-      11,    0,  128,    2, 0x08 /* Private */,
-      12,    0,  129,    2, 0x08 /* Private */,
-      13,    0,  130,    2, 0x08 /* Private */,
-      14,    0,  131,    2, 0x08 /* Private */,
-      15,    0,  132,    2, 0x08 /* Private */,
-      16,    0,  133,    2, 0x08 /* Private */,
-      17,    0,  134,    2, 0x08 /* Private */,
-      18,    0,  135,    2, 0x08 /* Private */,
-      19,    0,  136,    2, 0x08 /* Private */,
-      20,    0,  137,    2, 0x08 /* Private */,
-      21,    0,  138,    2, 0x08 /* Private */,
-      22,    0,  139,    2, 0x08 /* Private */,
+       1,    0,  159,    2, 0x08 /* Private */,
+       3,    0,  160,    2, 0x08 /* Private */,
+       4,    0,  161,    2, 0x08 /* Private */,
+       5,    0,  162,    2, 0x08 /* Private */,
+       6,    0,  163,    2, 0x08 /* Private */,
+       7,    0,  164,    2, 0x08 /* Private */,
+       8,    0,  165,    2, 0x08 /* Private */,
+       9,    0,  166,    2, 0x08 /* Private */,
+      10,    0,  167,    2, 0x08 /* Private */,
+      11,    0,  168,    2, 0x08 /* Private */,
+      12,    0,  169,    2, 0x08 /* Private */,
+      13,    0,  170,    2, 0x08 /* Private */,
+      14,    0,  171,    2, 0x08 /* Private */,
+      15,    0,  172,    2, 0x08 /* Private */,
+      16,    0,  173,    2, 0x08 /* Private */,
+      17,    0,  174,    2, 0x08 /* Private */,
+      18,    0,  175,    2, 0x08 /* Private */,
+      19,    0,  176,    2, 0x08 /* Private */,
+      20,    0,  177,    2, 0x08 /* Private */,
+      21,    0,  178,    2, 0x08 /* Private */,
+      22,    0,  179,    2, 0x08 /* Private */,
+      23,    0,  180,    2, 0x08 /* Private */,
+      24,    0,  181,    2, 0x08 /* Private */,
+      25,    0,  182,    2, 0x08 /* Private */,
+      26,    0,  183,    2, 0x08 /* Private */,
+      27,    0,  184,    2, 0x08 /* Private */,
+      28,    0,  185,    2, 0x08 /* Private */,
+      29,    0,  186,    2, 0x08 /* Private */,
+      30,    0,  187,    2, 0x08 /* Private */,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -160,11 +191,19 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 13: _t->on_actionRecortar_triggered(); break;
         case 14: _t->on_actionCambiar_ByC_triggered(); break;
         case 15: _t->on_actionUmbralizar_triggered(); break;
-        case 16: _t->Mouse_current_pos(); break;
-        case 17: _t->uno(); break;
-        case 18: _t->dos(); break;
-        case 19: _t->on_actionEscala_de_grises_triggered(); break;
-        case 20: _t->on_actionEcualizar_imagen_triggered(); break;
+        case 16: _t->on_actionEspejo_Vertical_triggered(); break;
+        case 17: _t->on_actionEspejo_Horizontal_triggered(); break;
+        case 18: _t->on_actionTranspuesta_triggered(); break;
+        case 19: _t->on_action90_triggered(); break;
+        case 20: _t->on_action180_triggered(); break;
+        case 21: _t->on_action270_triggered(); break;
+        case 22: _t->on_actionEscalado_IVMP_triggered(); break;
+        case 23: _t->on_actionEscalado_Bilineal_triggered(); break;
+        case 24: _t->Mouse_current_pos(); break;
+        case 25: _t->uno(); break;
+        case 26: _t->dos(); break;
+        case 27: _t->on_actionEscala_de_grises_triggered(); break;
+        case 28: _t->on_actionEcualizar_imagen_triggered(); break;
         default: ;
         }
     }
@@ -196,13 +235,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 21)
+        if (_id < 29)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 21;
+        _id -= 29;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 21)
+        if (_id < 29)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 21;
+        _id -= 29;
     }
     return _id;
 }

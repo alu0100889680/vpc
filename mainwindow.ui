@@ -119,7 +119,6 @@
     <addaction name="actionHistograma"/>
     <addaction name="actionRango_de_valores"/>
     <addaction name="actionTama_o"/>
-    <addaction name="actionHistograma_Acumulativo"/>
     <addaction name="actionEcualizar_imagen"/>
    </widget>
    <widget class="QMenu" name="menuEditar">
@@ -151,8 +150,10 @@
     </widget>
     <addaction name="actionEspejo_Vertical"/>
     <addaction name="actionEspejo_Horizontal"/>
-    <addaction name="actionTraspuesta"/>
+    <addaction name="actionTranspuesta"/>
     <addaction name="menuRotaciones_B_sicas"/>
+    <addaction name="actionEscalado_IVMP"/>
+    <addaction name="actionEscalado_Bilineal"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuAnalizar"/>
@@ -297,9 +298,9 @@
     <string>Espejo Horizontal</string>
    </property>
   </action>
-  <action name="actionTraspuesta">
+  <action name="actionTranspuesta">
    <property name="text">
-    <string>Traspuesta</string>
+    <string>Transpuesta</string>
    </property>
   </action>
   <action name="action90">
@@ -315,6 +316,16 @@
   <action name="action270">
    <property name="text">
     <string>270º</string>
+   </property>
+  </action>
+  <action name="actionEscalado_IVMP">
+   <property name="text">
+    <string>Escalado IVMP</string>
+   </property>
+  </action>
+  <action name="actionEscalado_Bilineal">
+   <property name="text">
+    <string>Escalado Bilineal</string>
    </property>
   </action>
  </widget>
