@@ -769,3 +769,93 @@ void MainWindow::on_actionRecortar_triggered()
     MainWindow* W = new MainWindow(img_rec,name_.fileName());
     W->show();
 }
+
+void MainWindow::on_actionEspejo_Vertical_triggered(){
+
+QImage nueva = image_;
+int alto = image_.height()-1;
+
+for (int y=0;y<image_.height();y++)
+    for(int x=0;x<image_.width();x++){
+        int color = image_.pixelColor(x,y).value();
+        nueva.setPixel(x,alto-y, qRgb(color,color,color));
+    }
+
+MainWindow* W = new MainWindow(nueva,name_.fileName());
+W->show();
+}
+
+void MainWindow::on_actionEspejo_Horizontal_triggered(){
+
+QImage nueva = image_;
+int ancho = image_.width()-1;
+
+for (int y=0;y<image_.height();y++)
+    for(int x=0;x<image_.width();x++){
+        int color = image_.pixelColor(x,y).value();
+        nueva.setPixel(ancho-x,y, qRgb(color,color,color));
+    }
+
+MainWindow* W = new MainWindow(nueva,name_.fileName());
+W->show();
+}
+
+void MainWindow::on_actionTranspuesta_triggered(){
+
+    QImage nueva{image_.height(),image_.width(), QImage::Format_RGB888};
+
+    for (int y=0;y<image_.height();y++)
+        for(int x=0;x<image_.width();x++){
+            int color = image_.pixelColor(x,y).value();
+            nueva.setPixel(y,x, qRgb(color,color,color));
+        }
+
+    MainWindow* W = new MainWindow(nueva, name_.fileName());
+    W->show();
+}
+
+void MainWindow::on_action90_triggered(){
+
+    QImage nueva{image_.height(),image_.width(), QImage::Format_RGB888};   
+    int ancho = image_.width()-1;
+
+    for (int y=0;y<image_.height();y++)
+        for(int x=0;x<image_.width();x++){
+            int color = image_.pixelColor(x,y).value();
+            nueva.setPixel(y,ancho-x, qRgb(color,color,color));
+        }
+
+    MainWindow* W = new MainWindow(nueva, name_.fileName());
+    W->show();
+}
+void MainWindow::on_action180_triggered(){
+
+    QImage nueva{image_.width(),image_.height(), QImage::Format_RGB888};
+    int ancho = image_.width()-1;
+    int alto = image_.height()-1;
+
+    for (int y=0;y<image_.height();y++)
+        for(int x=0;x<image_.width();x++){
+            int color = image_.pixelColor(x,y).value();
+            nueva.setPixel(ancho-x,alto-y, qRgb(color,color,color));
+        }
+
+    MainWindow* W = new MainWindow(nueva, name_.fileName());
+    W->show();
+}
+
+void MainWindow::on_action270_triggered(){
+
+    QImage nueva{image_.height(),image_.width(), QImage::Format_RGB888};
+    int alto = image_.height()-1;
+
+    for (int y=0;y<image_.height();y++)
+        for(int x=0;x<image_.width();x++){
+            int color = image_.pixelColor(x,y).value();
+            nueva.setPixel(alto-y,x, qRgb(color,color,color));
+        }
+
+    MainWindow* W = new MainWindow(nueva, name_.fileName());
+    W->show();
+}
+

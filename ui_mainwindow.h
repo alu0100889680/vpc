@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.11.2
+** Created by: Qt User Interface Compiler version 5.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -12,6 +12,8 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -48,6 +50,12 @@ public:
     QAction *actionCambiar_ByC;
     QAction *actionUmbralizar;
     QAction *actionUmbralizar_con_Imagen_Diferencia;
+    QAction *actionEspejo_Vertical;
+    QAction *actionEspejo_Horizontal;
+    QAction *actionTraspuesta;
+    QAction *action90;
+    QAction *action180;
+    QAction *action270;
     QWidget *centralWidget;
     my_qlabel *cuadroImg;
     QLabel *etiqueta_coordenadas;
@@ -55,6 +63,8 @@ public:
     QMenu *menuArchivo;
     QMenu *menuAnalizar;
     QMenu *menuEditar;
+    QMenu *menuTransformaciones_Geometricas;
+    QMenu *menuRotaciones_B_sicas;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -62,7 +72,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(407, 446);
+        MainWindow->resize(401, 435);
         actionAbrir = new QAction(MainWindow);
         actionAbrir->setObjectName(QStringLiteral("actionAbrir"));
         actionGuardar = new QAction(MainWindow);
@@ -110,6 +120,18 @@ public:
         actionUmbralizar->setObjectName(QStringLiteral("actionUmbralizar"));
         actionUmbralizar_con_Imagen_Diferencia = new QAction(MainWindow);
         actionUmbralizar_con_Imagen_Diferencia->setObjectName(QStringLiteral("actionUmbralizar_con_Imagen_Diferencia"));
+        actionEspejo_Vertical = new QAction(MainWindow);
+        actionEspejo_Vertical->setObjectName(QStringLiteral("actionEspejo_Vertical"));
+        actionEspejo_Horizontal = new QAction(MainWindow);
+        actionEspejo_Horizontal->setObjectName(QStringLiteral("actionEspejo_Horizontal"));
+        actionTraspuesta = new QAction(MainWindow);
+        actionTraspuesta->setObjectName(QStringLiteral("actionTraspuesta"));
+        action90 = new QAction(MainWindow);
+        action90->setObjectName(QStringLiteral("action90"));
+        action180 = new QAction(MainWindow);
+        action180->setObjectName(QStringLiteral("action180"));
+        action270 = new QAction(MainWindow);
+        action270->setObjectName(QStringLiteral("action270"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         cuadroImg = new my_qlabel(centralWidget);
@@ -137,13 +159,17 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 407, 26));
+        menuBar->setGeometry(QRect(0, 0, 401, 21));
         menuArchivo = new QMenu(menuBar);
         menuArchivo->setObjectName(QStringLiteral("menuArchivo"));
         menuAnalizar = new QMenu(menuBar);
         menuAnalizar->setObjectName(QStringLiteral("menuAnalizar"));
         menuEditar = new QMenu(menuBar);
         menuEditar->setObjectName(QStringLiteral("menuEditar"));
+        menuTransformaciones_Geometricas = new QMenu(menuBar);
+        menuTransformaciones_Geometricas->setObjectName(QStringLiteral("menuTransformaciones_Geometricas"));
+        menuRotaciones_B_sicas = new QMenu(menuTransformaciones_Geometricas);
+        menuRotaciones_B_sicas->setObjectName(QStringLiteral("menuRotaciones_B_sicas"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -155,6 +181,7 @@ public:
         menuBar->addAction(menuArchivo->menuAction());
         menuBar->addAction(menuAnalizar->menuAction());
         menuBar->addAction(menuEditar->menuAction());
+        menuBar->addAction(menuTransformaciones_Geometricas->menuAction());
         menuArchivo->addAction(actionAbrir);
         menuArchivo->addAction(actionGuardar);
         menuArchivo->addAction(actionDuplicar);
@@ -173,6 +200,13 @@ public:
         menuEditar->addAction(actionDiferencia);
         menuEditar->addAction(actionUmbralizar_con_Imagen_Diferencia);
         menuEditar->addAction(actionRecortar);
+        menuTransformaciones_Geometricas->addAction(actionEspejo_Vertical);
+        menuTransformaciones_Geometricas->addAction(actionEspejo_Horizontal);
+        menuTransformaciones_Geometricas->addAction(actionTraspuesta);
+        menuTransformaciones_Geometricas->addAction(menuRotaciones_B_sicas->menuAction());
+        menuRotaciones_B_sicas->addAction(action90);
+        menuRotaciones_B_sicas->addAction(action180);
+        menuRotaciones_B_sicas->addAction(action270);
 
         retranslateUi(MainWindow);
 
@@ -181,34 +215,42 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        actionAbrir->setText(QApplication::translate("MainWindow", "Abrir", nullptr));
-        actionGuardar->setText(QApplication::translate("MainWindow", "Guardar", nullptr));
-        actionHistograma->setText(QApplication::translate("MainWindow", "Histograma", nullptr));
-        actionDuplicar->setText(QApplication::translate("MainWindow", "Duplicar", nullptr));
-        actionRango_de_valores->setText(QApplication::translate("MainWindow", "Rango de valores", nullptr));
-        actionTama_o->setText(QApplication::translate("MainWindow", "Tama\303\261o", nullptr));
-        actionHistograma_Acumulativo->setText(QApplication::translate("MainWindow", "Histograma Acumulado", nullptr));
-        actionCojo->setText(QApplication::translate("MainWindow", "cojo", nullptr));
-        actionHola->setText(QApplication::translate("MainWindow", "hola", nullptr));
-        actionNUEVO->setText(QApplication::translate("MainWindow", "NUEVO", nullptr));
-        actionCambiar_Brillo->setText(QApplication::translate("MainWindow", "Cambiar Brillo", nullptr));
-        actionTramos->setText(QApplication::translate("MainWindow", "Transformaci\303\263n por Tramos", nullptr));
-        actionEscala_de_grises->setText(QApplication::translate("MainWindow", "Escala de grises", nullptr));
-        actionE->setText(QApplication::translate("MainWindow", "Ecualizar imagen", nullptr));
-        actionEcualizar_imagen->setText(QApplication::translate("MainWindow", "Ecualizar imagen", nullptr));
-        actionCambiar_Contraste->setText(QApplication::translate("MainWindow", "Cambiar Contraste", nullptr));
-        actionCorrecci_on_Gamma->setText(QApplication::translate("MainWindow", "Correcci\303\263n Gamma", nullptr));
-        actionDiferencia->setText(QApplication::translate("MainWindow", "Diferencia de Im\303\241genes", nullptr));
-        actionRecortar->setText(QApplication::translate("MainWindow", "Recortar", nullptr));
-        actionCambiar_ByC->setText(QApplication::translate("MainWindow", "Cambiar Brillo y Contraste", nullptr));
-        actionUmbralizar->setText(QApplication::translate("MainWindow", "Umbralizar", nullptr));
-        actionUmbralizar_con_Imagen_Diferencia->setText(QApplication::translate("MainWindow", "Umbralizar con Imagen Diferencia", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        actionAbrir->setText(QApplication::translate("MainWindow", "Abrir", 0));
+        actionGuardar->setText(QApplication::translate("MainWindow", "Guardar", 0));
+        actionHistograma->setText(QApplication::translate("MainWindow", "Histograma", 0));
+        actionDuplicar->setText(QApplication::translate("MainWindow", "Duplicar", 0));
+        actionRango_de_valores->setText(QApplication::translate("MainWindow", "Rango de valores", 0));
+        actionTama_o->setText(QApplication::translate("MainWindow", "Tama\303\261o", 0));
+        actionHistograma_Acumulativo->setText(QApplication::translate("MainWindow", "Histograma Acumulado", 0));
+        actionCojo->setText(QApplication::translate("MainWindow", "cojo", 0));
+        actionHola->setText(QApplication::translate("MainWindow", "hola", 0));
+        actionNUEVO->setText(QApplication::translate("MainWindow", "NUEVO", 0));
+        actionCambiar_Brillo->setText(QApplication::translate("MainWindow", "Cambiar Brillo", 0));
+        actionTramos->setText(QApplication::translate("MainWindow", "Transformaci\303\263n por Tramos", 0));
+        actionEscala_de_grises->setText(QApplication::translate("MainWindow", "Escala de grises", 0));
+        actionE->setText(QApplication::translate("MainWindow", "Ecualizar imagen", 0));
+        actionEcualizar_imagen->setText(QApplication::translate("MainWindow", "Ecualizar imagen", 0));
+        actionCambiar_Contraste->setText(QApplication::translate("MainWindow", "Cambiar Contraste", 0));
+        actionCorrecci_on_Gamma->setText(QApplication::translate("MainWindow", "Correcci\303\263n Gamma", 0));
+        actionDiferencia->setText(QApplication::translate("MainWindow", "Diferencia de Im\303\241genes", 0));
+        actionRecortar->setText(QApplication::translate("MainWindow", "Recortar", 0));
+        actionCambiar_ByC->setText(QApplication::translate("MainWindow", "Cambiar Brillo y Contraste", 0));
+        actionUmbralizar->setText(QApplication::translate("MainWindow", "Umbralizar", 0));
+        actionUmbralizar_con_Imagen_Diferencia->setText(QApplication::translate("MainWindow", "Umbralizar con Imagen Diferencia", 0));
+        actionEspejo_Vertical->setText(QApplication::translate("MainWindow", "Espejo Vertical", 0));
+        actionEspejo_Horizontal->setText(QApplication::translate("MainWindow", "Espejo Horizontal", 0));
+        actionTraspuesta->setText(QApplication::translate("MainWindow", "Traspuesta", 0));
+        action90->setText(QApplication::translate("MainWindow", "90\302\272", 0));
+        action180->setText(QApplication::translate("MainWindow", "180\302\272", 0));
+        action270->setText(QApplication::translate("MainWindow", "270\302\272", 0));
         cuadroImg->setText(QString());
-        etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0   (R,G,B)", nullptr));
-        menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", nullptr));
-        menuAnalizar->setTitle(QApplication::translate("MainWindow", "Analizar", nullptr));
-        menuEditar->setTitle(QApplication::translate("MainWindow", "Editar", nullptr));
+        etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0   (R,G,B)", 0));
+        menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", 0));
+        menuAnalizar->setTitle(QApplication::translate("MainWindow", "Analizar", 0));
+        menuEditar->setTitle(QApplication::translate("MainWindow", "Editar", 0));
+        menuTransformaciones_Geometricas->setTitle(QApplication::translate("MainWindow", "Geom\303\251tricas", 0));
+        menuRotaciones_B_sicas->setTitle(QApplication::translate("MainWindow", "Rotaciones B\303\241sicas", 0));
     } // retranslateUi
 
 };

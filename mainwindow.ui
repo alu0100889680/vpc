@@ -101,7 +101,7 @@
      <x>0</x>
      <y>0</y>
      <width>401</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -137,9 +137,27 @@
     <addaction name="actionUmbralizar_con_Imagen_Diferencia"/>
     <addaction name="actionRecortar"/>
    </widget>
+   <widget class="QMenu" name="menuTransformaciones_Geometricas">
+    <property name="title">
+     <string>Geométricas</string>
+    </property>
+    <widget class="QMenu" name="menuRotaciones_B_sicas">
+     <property name="title">
+      <string>Rotaciones Básicas</string>
+     </property>
+     <addaction name="action90"/>
+     <addaction name="action180"/>
+     <addaction name="action270"/>
+    </widget>
+    <addaction name="actionEspejo_Vertical"/>
+    <addaction name="actionEspejo_Horizontal"/>
+    <addaction name="actionTraspuesta"/>
+    <addaction name="menuRotaciones_B_sicas"/>
+   </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuAnalizar"/>
    <addaction name="menuEditar"/>
+   <addaction name="menuTransformaciones_Geometricas"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -267,6 +285,36 @@
   <action name="actionUmbralizar_con_Imagen_Diferencia">
    <property name="text">
     <string>Umbralizar con Imagen Diferencia</string>
+   </property>
+  </action>
+  <action name="actionEspejo_Vertical">
+   <property name="text">
+    <string>Espejo Vertical</string>
+   </property>
+  </action>
+  <action name="actionEspejo_Horizontal">
+   <property name="text">
+    <string>Espejo Horizontal</string>
+   </property>
+  </action>
+  <action name="actionTraspuesta">
+   <property name="text">
+    <string>Traspuesta</string>
+   </property>
+  </action>
+  <action name="action90">
+   <property name="text">
+    <string>90º</string>
+   </property>
+  </action>
+  <action name="action180">
+   <property name="text">
+    <string>180º</string>
+   </property>
+  </action>
+  <action name="action270">
+   <property name="text">
+    <string>270º</string>
    </property>
   </action>
  </widget>

@@ -50,6 +50,12 @@ private slots:
     void on_actionRecortar_triggered();
     void on_actionCambiar_ByC_triggered();
     void on_actionUmbralizar_triggered();
+    void on_actionEspejo_Vertical_triggered();
+    void on_actionEspejo_Horizontal_triggered();
+    void on_actionTranspuesta_triggered();
+    void on_action90_triggered();
+    void on_action180_triggered();
+    void on_action270_triggered();
 
 
     void Mouse_current_pos();
