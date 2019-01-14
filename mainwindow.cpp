@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include <math.h>
 #include <algorithm>    // std::max
+#define PI 3.14159265
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -674,7 +675,7 @@ void MainWindow::on_actionEcualizar_imagen_triggered()
 {
 
     QVector<double> vout;
-    double K = (image_.width()*image_.height()*3)/256;
+    double K = (image_.width()*image_.height())/256;
 
     QImage img_ec;
     img_ec = image_;
@@ -879,15 +880,27 @@ void MainWindow::on_actionEscalado_IVMP_triggered(){
 
     QImage nueva{N_x,N_y, QImage::Format_RGB888};
 
-    for(int i=0; i<N_x; i++)
-        for(int j=0; j<N_y; j++){
+    for(int i=0; i<N_x-1; i++)
+        for(int j=0; j<N_y-1; j++){
             int x = (int) round(i / nueva_x);
             int y = (int) round(j / nueva_y);
             int color = image_.pixelColor(x,y).value();
             nueva.setPixel(i,j, qRgb(color,color,color));
-
         }
-
+    int i = N_y-1;
+    for(int j=0; j<N_y-1; j++){
+        int x = (int) trunc(i / nueva_x);
+        int y = (int) trunc(j / nueva_y);
+        int color = image_.pixelColor(x,y).value();
+        nueva.setPixel(i,j, qRgb(color,color,color));
+    }
+    int j = N_y-1;
+    for(int i=0; i<N_y; i++){
+        int x = (int) trunc(i / nueva_x);
+        int y = (int) trunc(j / nueva_y);
+        int color = image_.pixelColor(x,y).value();
+        nueva.setPixel(i,j, qRgb(color,color,color));
+    }
 
     MainWindow* W = new MainWindow(nueva, name_.fileName());
     W->show();
@@ -917,8 +930,8 @@ void MainWindow::on_actionEscalado_Bilineal_triggered(){
 
     QImage nueva{N_x,N_y, QImage::Format_RGB888};
 
-    for(int i=0; i<N_x-1; i++)
-        for(int j=0; j<N_y-1; j++){
+    for(int i=0; i<N_x-2; i++)
+        for(int j=0; j<N_y-2; j++){
 
             double x = i / nueva_x;
             double y = j / nueva_y;
@@ -937,5 +950,164 @@ void MainWindow::on_actionEscalado_Bilineal_triggered(){
 
     MainWindow* W = new MainWindow(nueva, name_.fileName());
     W->show();
+
+}
+
+void MainWindow::on_actionEspecificacion_triggered(){
+
+    QString filename2 = QFileDialog::getOpenFileName(this, tr("Selecciona una imagen"), "", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
+    QFileInfo file2 = filename2;
+    QImage img_ref;
+
+
+    if(QString::compare(filename2, QString()) != 0){
+
+
+        bool valid = img_ref.load(filename2);
+        if(valid) {
+
+            //acumulativo de img referencia
+            QVector<double> lista, histograma, acumulativo_ref;
+            for (int i = 0; i < img_ref.width(); i++)
+                for (int j = 0; j < img_ref.height(); j++)
+                    lista.push_back(img_ref.pixelColor(i,j).value());
+
+            for (int i = 0; i < 256; i++){
+                int cont = lista.count(i);
+                histograma.push_back(cont);
+            }
+            acumulativo_ref.push_back(histograma[0]);
+            for (int i =1; i<histograma.size(); i++){
+                acumulativo_ref.push_back(histograma[i]+acumulativo_ref[i-1]);
+            }
+            ///// fin acumu
+
+            double size1 = image_.height()*image_.width();
+            double size2 = img_ref.height()*img_ref.width();
+            int T[256] {};
+
+            int j = 255;
+            for(int a=0; a<256; a++){
+                T[a] = j;
+                j--;
+
+                if(j<=0 || acumulativo_[a]/size1 >= acumulativo_ref[j]/size2) break;
+            }
+            for(int i = 0;i<256;i++){
+                cout<<"T["<<i<<"]= "<<T[i]<<endl;
+            }
+
+            QImage nueva = image_;
+            for(int i=0; i<image_.width(); i++)
+                for(int j=0; j<image_.height(); j++){
+
+                    int color = image_.pixelColor(i,j).value();
+
+                    nueva.setPixel(i,j, qRgb(T[color],T[color],T[color]));
+                }
+
+            MainWindow* W = new MainWindow(nueva, name_.fileName());
+            W->show();
+        }
+    }
+
+}
+
+void MainWindow::on_actionRotaci_n_Avanzada_triggered(){
+
+    double angulo = (QInputDialog::getDouble(this, "Ángulo", "Introduzca el ángulo de rotación deseado: "))* PI / 180.0;
+
+    double nueva_esquina_x[4] {};
+    double nueva_esquina_y[4] {};
+
+    //superior der
+    nueva_esquina_x[1] = cos(angulo)*(image_.width()-1) - sin(angulo)*0;
+    nueva_esquina_y[1] = sin(angulo)*(image_.width()-1) + cos(angulo)*0;
+
+    //inferior izq
+    nueva_esquina_x[2] = cos(angulo)*0 - sin(angulo)*(image_.height()-1);
+    nueva_esquina_y[2] = sin(angulo)*0 + cos(angulo)*(image_.height()-1);
+
+    //inferior der
+    nueva_esquina_x[3] = cos(angulo)*(image_.width()-1) - sin(angulo)*(image_.height()-1);
+    nueva_esquina_y[3] = sin(angulo)*(image_.width()-1) + cos(angulo)*(image_.height()-1);
+
+    for(int i=0;i<4;i++)
+        cout<<"x="<<nueva_esquina_x[i]<<"\ty="<<nueva_esquina_y[i]<<endl;
+
+    double max_x,min_x,max_y,min_y {};
+    for(int i =1;i<4;i++){
+        if(nueva_esquina_x[i]>max_x)max_x=nueva_esquina_x[i];
+        if(nueva_esquina_y[i]>max_y)max_y=nueva_esquina_y[i];
+        if(nueva_esquina_x[i]<min_x)min_x=nueva_esquina_x[i];
+        if(nueva_esquina_y[i]<min_y)min_y=nueva_esquina_y[i];
+    }
+
+    QImage nueva{(int) max_x - (int) min_x +2,(int) max_y - (int) min_y +2, QImage::Format_RGB888};
+
+    for(int i=0; i<image_.width(); i++)
+        for(int j=0; j<image_.height(); j++){
+
+
+            int n_x = (cos(angulo)*i - sin(angulo)*j)- (int) min_x;
+            int n_y = (sin(angulo)*i + cos(angulo)*j)- (int) min_y;
+
+//             cout<<"x="<<n_x<<"\ty="<<n_y<<endl;
+//             int oo;
+//             cin>>oo;
+
+            int color = image_.pixelColor(i,j).value();
+
+            nueva.setPixel(n_x, n_y, qRgb(color,color,color));
+        }
+
+
+    MainWindow* W = new MainWindow(nueva, name_.fileName());
+    W->show();
+
+
+
+    for(int i=0; i<nueva.width(); i++)
+        for(int j=0; j<nueva.height(); j++){
+
+
+            double original_x = (cos(-angulo)*i - sin(-angulo)*j)+min_x;
+            double original_y = (sin(-angulo)*i + cos(-angulo)*j)+min_y;
+
+
+
+
+
+            if (original_x >=0.0 && original_x<(image_.width()-1))
+                if(original_y >=0.0 && original_y<(image_.height()-1)){
+
+//                    cout<<"x="<<original_x<<"\ty="<<original_y<<endl;
+//                    cout<<"i="<<i<<"\tj="<<j<<endl;
+//                     system ("pause");
+
+                    int X = (int) trunc(original_x);
+                    int Y = (int) trunc(original_y);
+
+                    double p = original_x - X;
+                    double q = original_y - Y;
+
+
+                    int color = image_.pixelColor(X,Y).value() + (image_.pixelColor(X+1,Y).value() - image_.pixelColor(X,Y).value())*p + (image_.pixelColor(X,Y+1).value() - image_.pixelColor(X,Y).value())*q + (image_.pixelColor(X+1,Y+1).value() + image_.pixelColor(X,Y).value() - image_.pixelColor(X,Y+1).value() - image_.pixelColor(X+1,Y).value())*p*q;
+                    nueva.setPixel(i, j, qRgb(color,color,color));
+                }
+        }
+
+
+
+
+
+
+
+    MainWindow* W2 = new MainWindow(nueva, name_.fileName());
+    W2->show();
+
+
+
+
 
 }

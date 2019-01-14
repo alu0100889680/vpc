@@ -58,6 +58,8 @@ public:
     QAction *action270;
     QAction *actionEscalado_IVMP;
     QAction *actionEscalado_Bilineal;
+    QAction *actionEspecificacion;
+    QAction *actionRotaci_n_Avanzada;
     QWidget *centralWidget;
     my_qlabel *cuadroImg;
     QLabel *etiqueta_coordenadas;
@@ -138,6 +140,10 @@ public:
         actionEscalado_IVMP->setObjectName(QStringLiteral("actionEscalado_IVMP"));
         actionEscalado_Bilineal = new QAction(MainWindow);
         actionEscalado_Bilineal->setObjectName(QStringLiteral("actionEscalado_Bilineal"));
+        actionEspecificacion = new QAction(MainWindow);
+        actionEspecificacion->setObjectName(QStringLiteral("actionEspecificacion"));
+        actionRotaci_n_Avanzada = new QAction(MainWindow);
+        actionRotaci_n_Avanzada->setObjectName(QStringLiteral("actionRotaci_n_Avanzada"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         cuadroImg = new my_qlabel(centralWidget);
@@ -199,6 +205,7 @@ public:
         menuEditar->addAction(actionCambiar_Contraste);
         menuEditar->addAction(actionCambiar_ByC);
         menuEditar->addAction(actionTramos);
+        menuEditar->addAction(actionEspecificacion);
         menuEditar->addAction(actionUmbralizar);
         menuEditar->addAction(actionEscala_de_grises);
         menuEditar->addAction(actionCorrecci_on_Gamma);
@@ -211,6 +218,7 @@ public:
         menuTransformaciones_Geometricas->addAction(menuRotaciones_B_sicas->menuAction());
         menuTransformaciones_Geometricas->addAction(actionEscalado_IVMP);
         menuTransformaciones_Geometricas->addAction(actionEscalado_Bilineal);
+        menuTransformaciones_Geometricas->addAction(actionRotaci_n_Avanzada);
         menuRotaciones_B_sicas->addAction(action90);
         menuRotaciones_B_sicas->addAction(action180);
         menuRotaciones_B_sicas->addAction(action270);
@@ -253,6 +261,8 @@ public:
         action270->setText(QApplication::translate("MainWindow", "270\302\272", 0));
         actionEscalado_IVMP->setText(QApplication::translate("MainWindow", "Escalado IVMP", 0));
         actionEscalado_Bilineal->setText(QApplication::translate("MainWindow", "Escalado Bilineal", 0));
+        actionEspecificacion->setText(QApplication::translate("MainWindow", "Especificaci\303\263n del Histograma", 0));
+        actionRotaci_n_Avanzada->setText(QApplication::translate("MainWindow", "Rotaci\303\263n Avanzada", 0));
         cuadroImg->setText(QString());
         etiqueta_coordenadas->setText(QApplication::translate("MainWindow", "X = 0, Y = 0   (R,G,B)", 0));
         menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", 0));

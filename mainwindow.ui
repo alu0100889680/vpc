@@ -129,6 +129,7 @@
     <addaction name="actionCambiar_Contraste"/>
     <addaction name="actionCambiar_ByC"/>
     <addaction name="actionTramos"/>
+    <addaction name="actionEspecificacion"/>
     <addaction name="actionUmbralizar"/>
     <addaction name="actionEscala_de_grises"/>
     <addaction name="actionCorrecci_on_Gamma"/>
@@ -154,6 +155,7 @@
     <addaction name="menuRotaciones_B_sicas"/>
     <addaction name="actionEscalado_IVMP"/>
     <addaction name="actionEscalado_Bilineal"/>
+    <addaction name="actionRotaci_n_Avanzada"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuAnalizar"/>
@@ -326,6 +328,16 @@
   <action name="actionEscalado_Bilineal">
    <property name="text">
     <string>Escalado Bilineal</string>
+   </property>
+  </action>
+  <action name="actionEspecificacion">
+   <property name="text">
+    <string>Especificación del Histograma</string>
+   </property>
+  </action>
+  <action name="actionRotaci_n_Avanzada">
+   <property name="text">
+    <string>Rotación Avanzada</string>
    </property>
   </action>
  </widget>

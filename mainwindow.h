@@ -58,7 +58,8 @@ private slots:
     void on_action270_triggered();
     void on_actionEscalado_IVMP_triggered();
     void on_actionEscalado_Bilineal_triggered();
-
+    void on_actionEspecificacion_triggered();
+    void on_actionRotaci_n_Avanzada_triggered();
 
     void Mouse_current_pos();
 
