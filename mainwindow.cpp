@@ -986,13 +986,15 @@ void MainWindow::on_actionEspecificacion_triggered(){
             double size2 = img_ref.height()*img_ref.width();
             int T[256] {};
 
-            int j = 255;
-            for(int a=0; a<256; a++){
-                T[a] = j;
-                j--;
 
-                if(j<=0 || acumulativo_[a]/size1 >= acumulativo_ref[j]/size2) break;
+            for(int a=0; a<256; a++){
+                int j = 255;
+                while(j>=0 && acumulativo_[a]/size1 <= acumulativo_ref[j]/size2){
+                    T[a] = j;
+                    j--;
+                }
             }
+
             for(int i = 0;i<256;i++){
                 cout<<"T["<<i<<"]= "<<T[i]<<endl;
             }
@@ -1067,12 +1069,12 @@ void MainWindow::on_actionRotaci_n_Avanzada_triggered(){
 
 
 
-    for(int i=0; i<nueva.width(); i++)
-        for(int j=0; j<nueva.height(); j++){
+    for(int i=0+min_x; i<nueva.width(); i++)
+        for(int j=0+min_y; j<nueva.height(); j++){
 
 
-            double original_x = (cos(-angulo)*i - sin(-angulo)*j)+min_x;
-            double original_y = (sin(-angulo)*i + cos(-angulo)*j)+min_y;
+            double original_x = (cos(-angulo)*i - sin(-angulo)*j);
+            double original_y = (sin(-angulo)*i + cos(-angulo)*j);
 
 
 
@@ -1093,7 +1095,7 @@ void MainWindow::on_actionRotaci_n_Avanzada_triggered(){
 
 
                     int color = image_.pixelColor(X,Y).value() + (image_.pixelColor(X+1,Y).value() - image_.pixelColor(X,Y).value())*p + (image_.pixelColor(X,Y+1).value() - image_.pixelColor(X,Y).value())*q + (image_.pixelColor(X+1,Y+1).value() + image_.pixelColor(X,Y).value() - image_.pixelColor(X,Y+1).value() - image_.pixelColor(X+1,Y).value())*p*q;
-                    nueva.setPixel(i, j, qRgb(color,color,color));
+                    nueva.setPixel(i-min_x, j-min_y, qRgb(color,color,color));
                 }
         }
 
