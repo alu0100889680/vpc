@@ -26,7 +26,7 @@ Graphic::Graphic(QWidget *parent) :
 }
 
 
-Graphic::Graphic(QImage img,QImage grey_img, QFileInfo name, int acumu):
+Graphic::Graphic(QImage img, QImage grey_img, QFileInfo name, int acumu):
     ui(new Ui::Graphic),
     contador_(0.0)
 {
@@ -53,8 +53,9 @@ Graphic::Graphic(QImage img,QImage grey_img, QFileInfo name, int acumu):
 
     // Lista de pixeles / color
     for (int i = 0; i < 256; i++){
-        int cont = lista_.count(i);
-        x_.push_back(i);
+        int cont = lista_.count(i);cout<<endl<<"antes: "<<cont;
+        if(i==0 && acumu>2) cont = max(0,cont - acumu);
+        x_.push_back(i);cout<<endl<<"despu: "<<cont;//system("pause");
         color_table_.push_back(cont);
         contador_ += cont;
     }
@@ -131,7 +132,7 @@ Graphic::Graphic(QImage img,QImage grey_img, QFileInfo name, int acumu):
     connect(ui->plot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->plot->yAxis2, SLOT(setRange(QCPRange)));
 
     // Añadir los valores a los graficos
-    if(acumu==0){
+    if(acumu==0 || acumu>2){
         ui->plot->graph(0)->setData(x_, color_table_);
         ui->plot->graph(0)->rescaleAxes(true);
 

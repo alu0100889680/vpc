@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     MainWindow( QImage img, QString title);
+    MainWindow( QImage img, QString title, int acumu);
     ~MainWindow();
     Ui::MainWindow *ui;
 
@@ -79,6 +80,7 @@ private:
     Graphic *grafico;
     QVBoxLayout *mLayout;
     QCustomPlot *mPlot;
+    int acumu_ = 0;
 
 };
 

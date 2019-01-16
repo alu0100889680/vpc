@@ -33,6 +33,20 @@ MainWindow::MainWindow(QImage img, QString title):
         connect(this->ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
     };
 
+MainWindow::MainWindow(QImage img, QString title, int acumu):
+    image_(img),
+    name_(title),
+    acumu_(acumu),
+    ui(new Ui::MainWindow){
+        ui->setupUi(this);
+        this->setWindowTitle(name_.fileName());
+        this->ui->cuadroImg->setScaledContents(true);
+        this->ui->cuadroImg->setPixmap(QPixmap::fromImage(image_));
+        this->ui->cuadroImg->setGeometry(50,50,img.width(),img.height());
+        this->setWindowTitle(title);
+        this->setGeometry(50,50,image_.width()+100,image_.height()+120);
+        connect(this->ui->cuadroImg, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
+    };
 
 MainWindow::~MainWindow(){
     delete ui;
@@ -199,9 +213,12 @@ void MainWindow::on_actionHistograma_triggered()
 //    mPlot->replot();
 //=======
     */
-    Graphic grafico(image_, grey_image_, name_.fileName(), 0);
-    grafico.setModal(true);
-    grafico.exec();
+    cout<<"histograma";
+
+        Graphic grafico(image_, grey_image_, name_.fileName(), acumu_);
+        grafico.setModal(true);
+        grafico.exec();
+
 
 
 
@@ -1067,10 +1084,10 @@ void MainWindow::on_actionRotaci_n_Avanzada_triggered(){
     MainWindow* W = new MainWindow(nueva, name_.fileName());
     W->show();
 
+int acumu = 0;
 
-
-    for(int i=0+min_x; i<nueva.width(); i++)
-        for(int j=0+min_y; j<nueva.height(); j++){
+    for(int i=0+min_x; i<nueva.width()+min_x; i++)
+        for(int j=0+min_y; j<nueva.height()+min_y; j++){
 
 
             double original_x = (cos(-angulo)*i - sin(-angulo)*j);
@@ -1080,8 +1097,8 @@ void MainWindow::on_actionRotaci_n_Avanzada_triggered(){
 
 
 
-            if (original_x >=0.0 && original_x<(image_.width()-1))
-                if(original_y >=0.0 && original_y<(image_.height()-1)){
+            if (original_x >=0.0 && original_x<(image_.width()-1) && original_y >=0.0 && original_y<(image_.height()-1)){
+
 
 //                    cout<<"x="<<original_x<<"\ty="<<original_y<<endl;
 //                    cout<<"i="<<i<<"\tj="<<j<<endl;
@@ -1096,16 +1113,19 @@ void MainWindow::on_actionRotaci_n_Avanzada_triggered(){
 
                     int color = image_.pixelColor(X,Y).value() + (image_.pixelColor(X+1,Y).value() - image_.pixelColor(X,Y).value())*p + (image_.pixelColor(X,Y+1).value() - image_.pixelColor(X,Y).value())*q + (image_.pixelColor(X+1,Y+1).value() + image_.pixelColor(X,Y).value() - image_.pixelColor(X,Y+1).value() - image_.pixelColor(X+1,Y).value())*p*q;
                     nueva.setPixel(i-min_x, j-min_y, qRgb(color,color,color));
-                }
+
+            }else{
+                acumu++;
+            }
         }
 
 
 
 
 
+cout<<acumu;
 
-
-    MainWindow* W2 = new MainWindow(nueva, name_.fileName());
+    MainWindow* W2 = new MainWindow(nueva, name_.fileName(), acumu);
     W2->show();
 
 
